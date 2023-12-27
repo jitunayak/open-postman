@@ -31,7 +31,7 @@ export const MainWindowController: React.FC = () => {
   const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
   return (
     <Container>
-      <div>
+      <SideTab>
         <TabItem
           id={0}
           label="Collections"
@@ -60,7 +60,7 @@ export const MainWindowController: React.FC = () => {
           setTabSelectedIndex={setTabSelectedIndex}
           icon={<IconSettings size={25} stroke={1.6} />}
         ></TabItem>
-      </div>
+      </SideTab>
       {tabSelectedIndex === 0 && <CollectionTestingScreen />}
       {tabSelectedIndex === 1 && <Text>Environment Screen</Text>}
       {tabSelectedIndex === 2 && <Text>History Screen</Text>}
@@ -74,6 +74,9 @@ const Container = styled.span`
   width: 100%;
 `;
 
+const SideTab = styled.div`
+  position: fixed;
+`;
 const Tab = styled.span<{ $active: boolean }>`
   display: flex;
   justify-content: center;

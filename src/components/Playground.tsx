@@ -151,7 +151,7 @@ export const Playground: React.FC<IProps> = ({
   };
 
   return (
-    <>
+    <Container>
       <Stack>
         <Header>
           <Select
@@ -267,7 +267,15 @@ export const Playground: React.FC<IProps> = ({
               <Title order={6} color={getStatusColor(response?.status)}>
                 {response?.status},{response?.statusText}
               </Title>
-              <Text size={"xs"}>{axiosTimer}</Text>
+              <Text size={"sm"} color="orange">
+                {axiosTimer}
+              </Text>
+              <Text size={"sm"} color="dimmed">
+                {(
+                  JSON.stringify(response.data, undefined).length / 1024
+                ).toPrecision(4)}{" "}
+                KB
+              </Text>
             </>
           )}
         </Group>
@@ -277,14 +285,24 @@ export const Playground: React.FC<IProps> = ({
             autosize
             ta={"start"}
             contentEditable={false}
+            size="md"
             value={JSON.stringify(response?.data, undefined, 8)}
           />
         </ScrollArea>
       </Stack>
-    </>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  margin-left: 4rem;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+  width: 78%;
+`;
 const Header = styled.div`
   display: inline-flex;
   width: 100%;
