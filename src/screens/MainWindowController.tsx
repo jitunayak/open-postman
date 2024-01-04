@@ -86,9 +86,10 @@ const Tab = styled.span<{ $active: boolean }>`
   flex-direction: column;
   cursor: pointer;
   padding: 0.4rem;
-  height: 4rem;
-  width: 4rem;
+  height: 4.2rem;
+  width: 5rem;
   border-radius: ${DEFAULT_THEME.radius.xs};
+  margin: ${DEFAULT_THEME.spacing.xs};
   color: ${(props) =>
     props.$active
       ? DEFAULT_THEME.colors.dark[0]

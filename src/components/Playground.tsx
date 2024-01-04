@@ -187,7 +187,7 @@ export const Playground: React.FC<IProps> = ({
               <Grid.Col span={2}>
                 <Select
                   label="Authorization"
-                  data={["No Auth", "AWS Signature"]}
+                  data={["Inherit", "No Auth", "AWS Signature"]}
                   ta={"start"}
                   defaultValue={"AWS Signature"}
                   value={authorization}

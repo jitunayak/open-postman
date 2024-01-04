@@ -4,6 +4,8 @@ import {
   DEFAULT_THEME,
   Divider,
   Group,
+  PasswordInput,
+  Select,
   Stack,
   TextInput,
 } from "@mantine/core";
@@ -13,6 +15,7 @@ import { IconDeviceFloppy, IconTrash } from "@tabler/icons-react";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+type EnvInputType = "secret" | "text";
 export const EnvironmentScreen: React.FC = () => {
   console.log("Environment");
   const [selectedEnv, setSelectedEnv] = useState(0);
@@ -26,11 +29,25 @@ export const EnvironmentScreen: React.FC = () => {
       env: [
         {
           label: "DEV",
-          list: [{ key: "", value: "", type: "" }],
+          list: [
+            {
+              key: "",
+              value: "",
+              isChecked: true,
+              type: "TEXT" as EnvInputType,
+            },
+          ],
         },
         {
           label: "UAT",
-          list: [{ key: "", value: "", type: "" }],
+          list: [
+            {
+              key: "",
+              value: "",
+              isChecked: true,
+              type: "TEXT" as EnvInputType,
+            },
+          ],
         },
       ],
     },
@@ -63,7 +80,8 @@ export const EnvironmentScreen: React.FC = () => {
                 envForm.insertListItem(`env.${selectedEnv}.list`, {
                   key: "",
                   value: "",
-                  type: "",
+                  isChecked: true,
+                  type: "TEXT",
                 })
               }
             >
@@ -78,21 +96,48 @@ export const EnvironmentScreen: React.FC = () => {
             </Button>
           </Group>
           <Divider py="sm" w={"100%"} />
-          {envForm.values.env[selectedEnv].list.map((_value, index) => (
+          {envForm.values.env[selectedEnv].list.map((value, index) => (
             <Group>
-              <Checkbox size={"xs"} />
+              <Checkbox
+                size={"xs"}
+                {...envForm.getInputProps(
+                  `env.${selectedEnv}.list.${index}.isChecked`,
+                  { type: "checkbox" }
+                )}
+              />
               <TextInput
                 placeholder="Variable"
                 {...envForm.getInputProps(
                   `env.${selectedEnv}.list.${index}.key`
                 )}
               />
-              <TextInput
-                placeholder="Value"
+              <Select
+                w={"10rem"}
                 {...envForm.getInputProps(
-                  `env.${selectedEnv}.list.${index}.value`
+                  `env.${selectedEnv}.list.${index}.type`
                 )}
+                data={[
+                  { value: "TEXT", label: "Text" },
+                  { value: "SECRET", label: "Secret" },
+                ]}
               />
+              {value.type.toString() === "SECRET" ? (
+                <PasswordInput
+                  w={"15rem"}
+                  placeholder="Value"
+                  {...envForm.getInputProps(
+                    `env.${selectedEnv}.list.${index}.value`
+                  )}
+                />
+              ) : (
+                <TextInput
+                  w={"15rem"}
+                  placeholder="Value"
+                  {...envForm.getInputProps(
+                    `env.${selectedEnv}.list.${index}.value`
+                  )}
+                />
+              )}
               <IconTrash
                 size={16}
                 onClick={() =>

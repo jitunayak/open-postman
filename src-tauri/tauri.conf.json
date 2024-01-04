@@ -39,9 +39,11 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "open-postman",
+        "title": "Open Postman",
         "width": 900,
-        "height": 1000
+        "height": 1000,
+        "decorations": true,
+        "theme": "Dark"
       }
     ]
   }

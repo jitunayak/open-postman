@@ -6,7 +6,11 @@ import { MainWindowController } from "./screens/MainWindowController";
 
 function App() {
   return (
-    <MantineProvider theme={{ colorScheme: "dark", primaryColor: "orange" }}>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{ colorScheme: "dark", primaryColor: "orange" }}
+    >
       <Container>
         <MainWindowController />
       </Container>
