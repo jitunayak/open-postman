@@ -1,4 +1,5 @@
 import { DEFAULT_THEME, Text } from "@mantine/core";
+import { useColorScheme } from "@mantine/hooks";
 import {
   IconBookmark,
   IconHistory,
@@ -8,6 +9,7 @@ import {
 import React, { ReactElement, useState } from "react";
 import styled from "styled-components";
 import { CollectionTestingScreen } from "./CollectionTestingScreen";
+import { EnvironmentScreen } from "./EnvironmentScreen";
 
 function TabItem(props: {
   tabSelectedIndex: number;
@@ -29,6 +31,7 @@ function TabItem(props: {
 
 export const MainWindowController: React.FC = () => {
   const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
+
   return (
     <Container>
       <SideTab>
@@ -62,7 +65,7 @@ export const MainWindowController: React.FC = () => {
         ></TabItem>
       </SideTab>
       {tabSelectedIndex === 0 && <CollectionTestingScreen />}
-      {tabSelectedIndex === 1 && <Text>Environment Screen</Text>}
+      {tabSelectedIndex === 1 && <EnvironmentScreen />}
       {tabSelectedIndex === 2 && <Text>History Screen</Text>}
       {tabSelectedIndex === 3 && <Text>Settings Screen</Text>}
     </Container>
@@ -89,8 +92,14 @@ const Tab = styled.span<{ $active: boolean }>`
   border-radius: 0.4rem;
   color: ${(props) =>
     props.$active
-      ? DEFAULT_THEME.colors.dark[0]
+      ? useColorScheme() === "dark"
+        ? DEFAULT_THEME.colors.dark[0]
+        : DEFAULT_THEME.colors.dark[6]
       : DEFAULT_THEME.colors.dark[2]};
   background-color: ${(props) =>
-    props.$active ? DEFAULT_THEME.colors.dark[6] : "transparent"};
+    props.$active
+      ? useColorScheme() === "dark"
+        ? DEFAULT_THEME.colors.dark[6]
+        : "#eee"
+      : "transparent"};
 `;

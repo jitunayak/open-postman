@@ -13,13 +13,14 @@ import {
   Textarea,
   Title,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconSend2 } from "@tabler/icons-react";
-// import aws4Interceptor from "aws4-axios";
+import aws4Interceptor from "aws4-axios";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import { AwsClient } from "aws4fetch";
+// const AwsClient = require("aws4fetch");
 
 type IProps = {
   initialUrl?: string;
@@ -31,13 +32,20 @@ export const Playground: React.FC<IProps> = ({
   initialBodyPayload = "",
   initialMethodType = "GET",
 }) => {
-  const [url, seturl] = useState(initialUrl);
+  const [url, setUrl] = useState(initialUrl);
   const [response, setResponse] = useState<AxiosResponse>();
   const [methodType, setMethodType] = useState(initialMethodType);
   const [bodyPayload, setBodyPayload] = useState(initialBodyPayload);
   const [authorization, setAuthorization] = useState("No Auth");
   const [axiosTimer, setAxiosTimer] = useState("");
 
+  const awsForm = useForm({
+    initialValues: {
+      accessKeyId: "",
+      secretAccessKey: "",
+      sessionToken: "",
+    },
+  });
   const axiosTimerFunc = (startTime: number) => {
     let now = Date.now();
     let seconds = Math.floor((now - startTime) / 1000);
@@ -46,7 +54,7 @@ export const Playground: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    seturl(initialUrl);
+    setUrl(initialUrl);
   }, [initialUrl]);
 
   useEffect(() => {
@@ -57,7 +65,7 @@ export const Playground: React.FC<IProps> = ({
     setBodyPayload(initialBodyPayload);
   }, [initialBodyPayload]);
 
-  const [urlHistory, seturlHistory] = useState([
+  const [urlHistory, setUrlHistory] = useState([
     "http://localhost:3000",
     "https://dev-quotes.deno.dev/api/v1/quotes",
     "https://jsonplaceholder.typicode.com/todos",
@@ -70,7 +78,7 @@ export const Playground: React.FC<IProps> = ({
     },
   ];
 
-  const getFinalurlFromEnvironment = (url: string) => {
+  const getFinalUrlFromEnvironment = (url: string) => {
     env.forEach((env) => (url = url.replace(`{{${env.key}}}`, env.value)));
     return url;
   };
@@ -79,42 +87,31 @@ export const Playground: React.FC<IProps> = ({
     let startTime = Date.now();
     const client = axios.create({ adapter: axiosTauriApiAdapter });
 
-    // const aws = new AwsClient({
-    //   accessKeyId: "",
-    //   secretAccessKey: "",
-    //   sessionToken: "",
-    // });
-
-    // const interceptor = aws4Interceptor({
-    //   options: {
-    //     region: "eu-west-2",
-    //     service: "execute-api",
-    //   },
-    //   credentials: {
-    //     accessKeyId: "12321323213",
-    //     secretAccessKey: "wewqdqwe23",
-    //   },
-    // });
-    // client.interceptors.request.use(interceptor);
-
     const suggestions = new Set(urlHistory);
     suggestions.add(url);
-    seturlHistory([...suggestions]);
-    const actualUrl = getFinalurlFromEnvironment(url);
+    setUrlHistory([...suggestions]);
+    const actualUrl = getFinalUrlFromEnvironment(url);
 
-    // if (authorization === "AWS Signature") {
-    //   const res = await aws.fetch(actualUrl, {
-    //     body: JSON.stringify(bodyPayload),
-    //   });
-    //   setResponse(res);
-    //   return;
-    // }
+    if (authorization === "AWS Signature") {
+      const { accessKeyId, secretAccessKey, sessionToken } = awsForm.values;
+      const interceptor = aws4Interceptor({
+        options: {},
+        credentials: {
+          accessKeyId,
+          secretAccessKey,
+          sessionToken,
+        },
+      });
+
+      axios.interceptors.request.use(interceptor);
+    }
 
     try {
       switch (methodType) {
         case "GET": {
           const result = await client.get(actualUrl);
           setResponse(result);
+          console.log(result);
           break;
         }
         case "POST": {
@@ -167,7 +164,7 @@ export const Playground: React.FC<IProps> = ({
             autoComplete=""
             data={urlHistory}
             value={url}
-            onChange={(e) => seturl(e)}
+            onChange={(e) => setUrl(e)}
           />
           <Button
             size="sm"
@@ -210,7 +207,10 @@ export const Playground: React.FC<IProps> = ({
                           </Text>
                         </td>
                         <td>
-                          <TextInput placeholder="Access Key" />
+                          <TextInput
+                            placeholder="Access Key"
+                            {...awsForm.getInputProps("accessKeyId")}
+                          />
                         </td>
                       </tr>
                       <tr>
@@ -220,7 +220,10 @@ export const Playground: React.FC<IProps> = ({
                           </Text>
                         </td>
                         <td>
-                          <TextInput placeholder="Secret Key" />
+                          <TextInput
+                            placeholder="Secret Key"
+                            {...awsForm.getInputProps("secretAccessKey")}
+                          />
                         </td>
                       </tr>
                       <tr>
@@ -230,7 +233,10 @@ export const Playground: React.FC<IProps> = ({
                           </Text>
                         </td>
                         <td>
-                          <Textarea placeholder="Session Token" />
+                          <Textarea
+                            placeholder="Session Token"
+                            {...awsForm.getInputProps("sessionToken")}
+                          />
                         </td>
                       </tr>
                     </Table>
@@ -285,7 +291,7 @@ export const Playground: React.FC<IProps> = ({
             autosize
             ta={"start"}
             contentEditable={false}
-            size="md"
+            size="sm"
             value={JSON.stringify(response?.data, undefined, 8)}
           />
         </ScrollArea>
