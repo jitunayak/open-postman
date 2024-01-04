@@ -1,6 +1,9 @@
-# Tauri + React + Typescript
+# Open Postman
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+
+![Screeenshot2](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap2.png)
+![Screeenshot1](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap1.png)
+
 
 ## Recommended IDE Setup
 
