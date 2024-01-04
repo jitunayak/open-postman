@@ -1,5 +1,4 @@
 import { DEFAULT_THEME, Text } from "@mantine/core";
-import { useColorScheme } from "@mantine/hooks";
 import {
   IconBookmark,
   IconHistory,
@@ -89,17 +88,15 @@ const Tab = styled.span<{ $active: boolean }>`
   padding: 0.4rem;
   height: 4rem;
   width: 4rem;
-  border-radius: 0.4rem;
+  border-radius: ${DEFAULT_THEME.radius.xs};
   color: ${(props) =>
     props.$active
-      ? useColorScheme() === "dark"
-        ? DEFAULT_THEME.colors.dark[0]
-        : DEFAULT_THEME.colors.dark[6]
+      ? DEFAULT_THEME.colors.dark[0]
       : DEFAULT_THEME.colors.dark[2]};
   background-color: ${(props) =>
+    props.$active ? DEFAULT_THEME.colors.dark[4] : "transparent"};
+  border-left: ${(props) =>
     props.$active
-      ? useColorScheme() === "dark"
-        ? DEFAULT_THEME.colors.dark[6]
-        : "#eee"
-      : "transparent"};
+      ? `2px solid ${DEFAULT_THEME.colors.orange[6]}`
+      : "2px solid transparent"};
 `;
