@@ -65,8 +65,8 @@ export const CollectionTestingScreen: React.FC = ({}) => {
         },
         {
           id: "2",
-          label: "get all Todos",
-          url: "https://jsonplaceholder.typicode.com/todos",
+          label: "api gateway testing",
+          url: "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
           method: "GET",
           bodyPayload: "",
         },

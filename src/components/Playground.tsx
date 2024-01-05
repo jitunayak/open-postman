@@ -21,6 +21,7 @@ import axiosTauriApiAdapter from "axios-tauri-api-adapter";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 // const AwsClient = require("aws4fetch");
+// import aws4 from "aws4-browser";
 
 type IProps = {
   initialUrl?: string;
@@ -38,12 +39,14 @@ export const Playground: React.FC<IProps> = ({
   const [bodyPayload, setBodyPayload] = useState(initialBodyPayload);
   const [authorization, setAuthorization] = useState("No Auth");
   const [axiosTimer, setAxiosTimer] = useState("");
+  const [isResponseLoading, setIsResponseLoading] = useState(false);
 
   const awsForm = useForm({
     initialValues: {
       accessKeyId: "",
       secretAccessKey: "",
       sessionToken: "",
+      region: "us-east-1",
     },
   });
   const axiosTimerFunc = (startTime: number) => {
@@ -69,6 +72,7 @@ export const Playground: React.FC<IProps> = ({
     "http://localhost:3000",
     "https://dev-quotes.deno.dev/api/v1/quotes",
     "https://jsonplaceholder.typicode.com/todos",
+    "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
   ]);
 
   const env = [
@@ -84,6 +88,8 @@ export const Playground: React.FC<IProps> = ({
   };
 
   const sendRequestHandler = async () => {
+    setIsResponseLoading(true);
+    setResponse(undefined);
     let startTime = Date.now();
     const client = axios.create({ adapter: axiosTauriApiAdapter });
 
@@ -93,9 +99,13 @@ export const Playground: React.FC<IProps> = ({
     const actualUrl = getFinalUrlFromEnvironment(url);
 
     if (authorization === "AWS Signature") {
-      const { accessKeyId, secretAccessKey, sessionToken } = awsForm.values;
+      const { accessKeyId, secretAccessKey, sessionToken, region } =
+        awsForm.values;
       const interceptor = aws4Interceptor({
-        options: {},
+        options: {
+          region,
+          service: "execute-api",
+        },
         credentials: {
           accessKeyId,
           secretAccessKey,
@@ -103,7 +113,7 @@ export const Playground: React.FC<IProps> = ({
         },
       });
 
-      axios.interceptors.request.use(interceptor);
+      client.interceptors.request.use(interceptor);
     }
 
     try {
@@ -125,10 +135,11 @@ export const Playground: React.FC<IProps> = ({
     } catch (err) {
       console.log(err);
       axiosTimerFunc(startTime);
-
       if (err instanceof AxiosError) {
         setResponse(err.response);
       }
+    } finally {
+      setIsResponseLoading(false);
     }
   };
 
@@ -168,7 +179,8 @@ export const Playground: React.FC<IProps> = ({
           />
           <Button
             size="sm"
-            rightIcon={<IconSend2 size={14} />}
+            rightIcon={<IconSend2 size={16} />}
+            loading={isResponseLoading}
             onClick={() => sendRequestHandler()}
           >
             Send
@@ -200,6 +212,20 @@ export const Playground: React.FC<IProps> = ({
                 <Grid.Col span={8}>
                   <div style={{ display: "flex", gap: "1rem" }}>
                     <Table verticalSpacing={"md"}>
+                      <tr>
+                        <td>
+                          <Text size="sm" ta={"start"}>
+                            Region
+                          </Text>
+                        </td>
+                        <td>
+                          <TextInput
+                            placeholder="us-east-1"
+                            defaultValue={awsForm.values.region}
+                            {...awsForm.getInputProps("region")}
+                          />
+                        </td>
+                      </tr>
                       <tr>
                         <td>
                           <Text size="sm" ta={"start"}>
@@ -292,7 +318,11 @@ export const Playground: React.FC<IProps> = ({
             ta={"start"}
             contentEditable={false}
             size="sm"
-            value={JSON.stringify(response?.data, undefined, 8)}
+            value={
+              isResponseLoading
+                ? "fetching..."
+                : JSON.stringify(response?.data, undefined, 8)
+            }
           />
         </ScrollArea>
       </Stack>
