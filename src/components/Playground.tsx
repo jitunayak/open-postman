@@ -20,6 +20,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useStore } from "../store/useStore";
 // const AwsClient = require("aws4fetch");
 // import aws4 from "aws4-browser";
 
@@ -75,15 +76,11 @@ export const Playground: React.FC<IProps> = ({
     "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
   ]);
 
-  const env = [
-    {
-      key: "BASE_URL",
-      value: "https://jsonplaceholder.typicode.com",
-    },
-  ];
-
+  const { envs } = useStore();
   const getFinalUrlFromEnvironment = (url: string) => {
-    env.forEach((env) => (url = url.replace(`{{${env.key}}}`, env.value)));
+    envs[0].list.forEach(
+      (env) => (url = url.replaceAll(`{{${env.key}}}`, env.value))
+    );
     return url;
   };
 
@@ -134,10 +131,9 @@ export const Playground: React.FC<IProps> = ({
       axiosTimerFunc(startTime);
     } catch (err) {
       console.log(err);
+      const error = err as AxiosError;
       axiosTimerFunc(startTime);
-      if (err instanceof AxiosError) {
-        setResponse(err.response);
-      }
+      setResponse(error.response);
     } finally {
       setIsResponseLoading(false);
     }
