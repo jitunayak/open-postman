@@ -7,7 +7,7 @@ import {
 } from "@tabler/icons-react";
 import React, { ReactElement, useState } from "react";
 import styled from "styled-components";
-import { CollectionTestingScreen } from "./CollectionTestingScreen";
+import { CollectionScreen } from "./CollectionScreen";
 import { EnvironmentScreen } from "./EnvironmentScreen";
 
 function TabItem(props: {
@@ -63,7 +63,7 @@ export const MainWindowController: React.FC = () => {
           icon={<IconSettings size={25} stroke={1.6} />}
         ></TabItem>
       </SideTab>
-      {tabSelectedIndex === 0 && <CollectionTestingScreen />}
+      {tabSelectedIndex === 0 && <CollectionScreen />}
       {tabSelectedIndex === 1 && <EnvironmentScreen />}
       {tabSelectedIndex === 2 && <Text>History Screen</Text>}
       {tabSelectedIndex === 3 && <Text>Settings Screen</Text>}

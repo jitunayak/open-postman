@@ -9,7 +9,7 @@ import {
   Stack,
   TextInput,
 } from "@mantine/core";
-import { Form, useForm } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { IconDeviceFloppy, IconTrash } from "@tabler/icons-react";
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -23,6 +23,7 @@ export const EnvironmentScreen: React.FC = () => {
     id: ev.id,
     label: ev.label,
   }));
+
   const envForm = useForm({
     initialValues: {
       envs,
@@ -34,6 +35,15 @@ export const EnvironmentScreen: React.FC = () => {
       },
     },
   });
+
+  function addEnvItem(): void {
+    return envForm.insertListItem(`envs.${selectedEnv}.list`, {
+      key: "",
+      value: "",
+      isChecked: true,
+      type: "TEXT",
+    });
+  }
 
   return (
     <form>
@@ -56,18 +66,7 @@ export const EnvironmentScreen: React.FC = () => {
           <Divider orientation="vertical" />
           <Stack>
             <Group mb="sm" align="center">
-              <Button
-                variant="outline"
-                size="xs"
-                onClick={() =>
-                  envForm.insertListItem(`envs.${selectedEnv}.list`, {
-                    key: "",
-                    value: "",
-                    isChecked: true,
-                    type: "TEXT",
-                  })
-                }
-              >
+              <Button variant="outline" size="xs" onClick={() => addEnvItem()}>
                 Add +
               </Button>
               <Button
@@ -105,13 +104,13 @@ export const EnvironmentScreen: React.FC = () => {
                 />
                 <Select
                   w={"10rem"}
-                  {...envForm.getInputProps(
-                    `envs.${selectedEnv}.list.${index}.type`
-                  )}
                   data={[
                     { value: "TEXT", label: "Text" },
                     { value: "SECRET", label: "Secret" },
                   ]}
+                  {...envForm.getInputProps(
+                    `envs.${selectedEnv}.list.${index}.type`
+                  )}
                 />
                 {value.type.toString() === "SECRET" ? (
                   <PasswordInput

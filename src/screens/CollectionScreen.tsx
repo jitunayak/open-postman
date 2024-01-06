@@ -7,7 +7,7 @@ import {
   ICollectionRequest,
 } from "../types/ICollectionRequest";
 
-export const CollectionTestingScreen: React.FC = ({}) => {
+export const CollectionScreen: React.FC = ({}) => {
   const [collections] = useState<ICollectionList[]>([
     {
       collectionName: "My Test Collection",
@@ -67,6 +67,13 @@ export const CollectionTestingScreen: React.FC = ({}) => {
           id: "2",
           label: "api gateway testing",
           url: "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
+          method: "GET",
+          bodyPayload: "",
+        },
+        {
+          id: "3",
+          label: "Variable Test",
+          url: "{{BASE_URL}}/todo/{{ID}}",
           method: "GET",
           bodyPayload: "",
         },
