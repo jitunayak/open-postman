@@ -1,10 +1,8 @@
 import {
   Button,
-  DEFAULT_THEME,
   Divider,
   Grid,
   Group,
-  Mark,
   ScrollArea,
   Select,
   Stack,
@@ -14,16 +12,16 @@ import {
   TextInput,
   Textarea,
   Title,
-  Tooltip,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSend2 } from "@tabler/icons-react";
 import aws4Interceptor from "aws4-axios";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
+import { URLBar } from "./URLBar";
 // const AwsClient = require("aws4fetch");
 // import aws4 from "aws4-browser";
 
@@ -88,7 +86,6 @@ export const Playground: React.FC<IProps> = ({
   };
 
   const sendRequestHandler = async () => {
-    console.log(searchBarRef.current?.innerText);
     setIsResponseLoading(true);
     setResponse(undefined);
     let startTime = Date.now();
@@ -158,8 +155,6 @@ export const Playground: React.FC<IProps> = ({
     }
   };
 
-  const searchBarRef = useRef<HTMLDivElement>(null);
-
   return (
     <Container>
       <Stack>
@@ -170,66 +165,13 @@ export const Playground: React.FC<IProps> = ({
             data={["GET", "POST", "PATCH", "DELETE"]}
             value={methodType}
             onChange={(e) => setMethodType(e ?? methodType)}
+            w={"10rem"}
           />
-          <div
-            contentEditable
-            ref={searchBarRef}
-            onBlur={(e) => {
-              setUrl(e.currentTarget.textContent ?? "");
-            }}
-            suppressContentEditableWarning={true}
-            // onInput={(e) => {
-            //   console.log("Text inside div", e.currentTarget.textContent);
-            //   setUrl(e.currentTarget.textContent ?? "");
-            // }}
-            style={{
-              outline: "none",
-              width: "100%",
-              fontSize: "10pt",
-              margin: "0rem .6rem",
-              padding: "0rem 1rem",
-              alignItems: "center",
-              display: "inline-flex",
-              alignContent: "center",
-              backgroundColor: DEFAULT_THEME.colors.dark[6],
-              borderRadius: DEFAULT_THEME.radius.sm,
-              border: `1.5px solid ${DEFAULT_THEME.colors.dark[4]}`,
-            }}
-          >
-            {url.split(/{{(.*?)}}/g).map((value) => (
-              <>
-                {url.search(`{{${value}}}`) < 0 ? (
-                  <Text color="white">{value}</Text>
-                ) : (
-                  <Tooltip
-                    withArrow
-                    label={envs[0].list.find((l) => l.key === value)?.value}
-                  >
-                    <Mark
-                      style={{
-                        padding: 0,
-                        margin: 0,
-                        backgroundColor: "transparent",
-                        color: DEFAULT_THEME.colors.orange[8],
-                      }}
-                    >
-                      {`{{${value}}}`}
-                    </Mark>
-                  </Tooltip>
-                )}
-              </>
-            ))}
-          </div>
-          {/* <Autocomplete
-            w={"100%"}
-            placeholder="http://localhost:3000/v1/api"
-            autoComplete=""
-            data={urlHistory}
-            value={url}
-            onChange={(e) => setUrl(e)}
-          /> */}
+
+          <URLBar setUrl={setUrl} url={url} />
           <Button
             size="sm"
+            style={{ position: "absolute", right: "0" }}
             rightIcon={<IconSend2 size={16} />}
             loading={isResponseLoading}
             onClick={() => sendRequestHandler()}
