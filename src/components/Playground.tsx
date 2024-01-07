@@ -18,9 +18,10 @@ import { IconSend2 } from "@tabler/icons-react";
 import aws4Interceptor from "aws4-axios";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
+import { getStatusColor } from "../utils/RequestUtils";
 import { URLBar } from "./URLBar";
 // const AwsClient = require("aws4fetch");
 // import aws4 from "aws4-browser";
@@ -30,7 +31,7 @@ type IProps = {
   initialMethodType?: string;
   initialBodyPayload?: string;
 };
-export const Playground: React.FC<IProps> = ({
+const Playground1: React.FC<IProps> = ({
   initialUrl = "",
   initialBodyPayload = "",
   initialMethodType = "GET",
@@ -137,21 +138,6 @@ export const Playground: React.FC<IProps> = ({
       setResponse(error.response);
     } finally {
       setIsResponseLoading(false);
-    }
-  };
-
-  const getStatusColor = (code?: number) => {
-    if (String(code).startsWith("2")) {
-      return "green";
-    }
-    if (String(code).startsWith("4")) {
-      return "red";
-    }
-
-    if (String(code).startsWith("5")) {
-      return "orange";
-    } else {
-      return "yellow";
     }
   };
 
@@ -339,3 +325,5 @@ const Header = styled.div`
   display: inline-flex;
   width: 100%;
 `;
+
+export const Playground = memo(Playground1);

@@ -1,4 +1,8 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
+import {
+  ICollectionList,
+  ICollectionRequest,
+} from "../types/ICollectionRequest";
 
 interface IEnv {
   id: string;
@@ -13,6 +17,10 @@ interface IEnv {
 export interface IStore {
   envs: IEnv[];
   setEnvs: (data: IEnv[]) => void;
+  collections: ICollectionList[];
+  setCollections: (data: ICollectionList[]) => void;
+  selectedRequest: ICollectionRequest;
+  setSelectRequest: (request: ICollectionRequest) => void;
 }
 
 const initialEnv: IEnv[] = [
@@ -48,9 +56,90 @@ const initialEnv: IEnv[] = [
   },
 ];
 
+const initialCollection: ICollectionList[] = [
+  {
+    collectionName: "My Test Collection",
+    requests: [
+      {
+        id: "1",
+        label: "get all quotes",
+        url: "https://dev-quotes.deno.dev/api/v1/quotes",
+        method: "GET",
+        bodyPayload: "",
+      },
+      {
+        id: "3",
+        label: "create Todos",
+        url: "https://jsonplaceholder.typicode.com/todos",
+        method: "POST",
+        bodyPayload: JSON.stringify(
+          {
+            userId: 10,
+            id: 10,
+            title: "Jitu is coming!",
+            completed: false,
+          },
+          undefined,
+          8
+        ),
+      },
+      {
+        id: "4",
+        label: "get all Todos",
+        url: "https://jsonplaceholder.typicode.com/todos",
+        method: "GET",
+        bodyPayload: "",
+      },
+    ],
+  },
+  {
+    collectionName: "To Dos APIs",
+    requests: [
+      {
+        id: "5",
+        label: "create Todos",
+        url: "https://jsonplaceholder.typicode.com/todos",
+        method: "POST",
+        bodyPayload: JSON.stringify(
+          {
+            userId: 10,
+            id: 10,
+            title: "Jitu is coming!",
+            completed: false,
+          },
+          undefined,
+          8
+        ),
+      },
+      {
+        id: "6",
+        label: "api gateway testing",
+        url: "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
+        method: "GET",
+        bodyPayload: "",
+      },
+      {
+        id: "7",
+        label: "Variable Test",
+        url: "{{BASE_URL}}/todo/{{ID}}",
+        method: "GET",
+        bodyPayload: "",
+      },
+    ],
+  },
+];
+
 export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
   envs: initialEnv,
   setEnvs: (data: IEnv[]) => {
     set({ envs: data });
+  },
+  collections: initialCollection,
+  setCollections: (data: ICollectionList[]) => {
+    set({ collections: data });
+  },
+  selectedRequest: initialCollection[0].requests[0],
+  setSelectRequest: (request: ICollectionRequest) => {
+    set({ selectedRequest: request });
   },
 }));

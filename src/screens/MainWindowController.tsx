@@ -5,7 +5,7 @@ import {
   IconSettings,
   IconVersions,
 } from "@tabler/icons-react";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, memo, useState } from "react";
 import styled from "styled-components";
 import { CollectionScreen } from "./CollectionScreen";
 import { EnvironmentScreen } from "./EnvironmentScreen";
@@ -28,7 +28,7 @@ function TabItem(props: {
   );
 }
 
-export const MainWindowController: React.FC = () => {
+const MainWindowController1: React.FC = () => {
   const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
 
   return (
@@ -101,3 +101,5 @@ const Tab = styled.span<{ $active: boolean }>`
       ? `2px solid ${DEFAULT_THEME.colors.orange[6]}`
       : "2px solid transparent"};
 `;
+
+export const MainWindowController = memo(MainWindowController1);
