@@ -14,15 +14,6 @@ interface IEnv {
     type: "TEXT" | "SECRET";
   }[];
 }
-export interface IStore {
-  envs: IEnv[];
-  setEnvs: (data: IEnv[]) => void;
-  collections: ICollectionList[];
-  setCollections: (data: ICollectionList[]) => void;
-  selectedRequest: ICollectionRequest;
-  setSelectRequest: (request: ICollectionRequest) => void;
-}
-
 const initialEnv: IEnv[] = [
   {
     id: "1",
@@ -128,6 +119,14 @@ const initialCollection: ICollectionList[] = [
     ],
   },
 ];
+export interface IStore {
+  envs: IEnv[];
+  setEnvs: (data: IEnv[]) => void;
+  collections: ICollectionList[];
+  setCollections: (data: ICollectionList[]) => void;
+  selectedRequest: ICollectionRequest;
+  setSelectRequest: (request: ICollectionRequest) => void;
+}
 
 export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
   envs: initialEnv,

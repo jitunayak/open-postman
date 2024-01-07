@@ -119,7 +119,7 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
                     color: "white",
                     backgroundColor:
                       index === dropDownSelection
-                        ? DEFAULT_THEME.colors.orange[6]
+                        ? DEFAULT_THEME.colors.orange[8]
                         : "transparent",
                   }}
                 >
@@ -181,11 +181,11 @@ const HiddenUserInput = styled.input`
 const URLBarHighlight = styled.div`
   outline: none;
   position: absolute;
-  width: 80%;
+  width: 77%;
   left: 10rem;
   font-size: 11pt;
   margin: 0rem 0.6rem;
-  padding: 0.3rem 1rem;
+  padding: 0.35rem 1rem;
   align-items: center;
   display: inline-flex;
   align-content: center;

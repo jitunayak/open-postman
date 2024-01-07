@@ -25,6 +25,7 @@ export const CollectionScreen: React.FC = ({}) => {
             initialBodyPayload={selectedRequest.bodyPayload}
             initialMethodType={selectedRequest.method}
             initialUrl={selectedRequest.url}
+            initialRequestName={selectedRequest.label}
           />
         </PlaygroundContainer>
       )}

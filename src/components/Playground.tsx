@@ -14,7 +14,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconSend2 } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconSend2 } from "@tabler/icons-react";
 import aws4Interceptor from "aws4-axios";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
@@ -27,11 +27,13 @@ import { URLBar } from "./URLBar";
 // import aws4 from "aws4-browser";
 
 type IProps = {
+  initialRequestName: string;
   initialUrl?: string;
   initialMethodType?: string;
   initialBodyPayload?: string;
 };
 const Playground1: React.FC<IProps> = ({
+  initialRequestName = "",
   initialUrl = "",
   initialBodyPayload = "",
   initialMethodType = "GET",
@@ -144,6 +146,27 @@ const Playground1: React.FC<IProps> = ({
   return (
     <Container>
       <Stack>
+        <Group w="100%" style={{ justifyContent: "space-between" }}>
+          <TextInput
+            value={initialRequestName}
+            variant="unstyled"
+            style={{ fontWeight: "700" }}
+            fw={600}
+          />
+          <Group>
+            <Button size="xs" rightIcon={<IconDeviceFloppy size={14} />}>
+              Save
+            </Button>
+            <Select
+              clearable
+              placeholder="No Environment"
+              data={envs.map((env, index) => ({
+                label: env.label,
+                value: index.toString(),
+              }))}
+            />
+          </Group>
+        </Group>
         <Header>
           <Select
             size="sm"
@@ -153,7 +176,6 @@ const Playground1: React.FC<IProps> = ({
             onChange={(e) => setMethodType(e ?? methodType)}
             w={"10rem"}
           />
-
           <URLBar setUrl={setUrl} url={url} />
           <Button
             size="sm"
@@ -161,6 +183,7 @@ const Playground1: React.FC<IProps> = ({
             rightIcon={<IconSend2 size={16} />}
             loading={isResponseLoading}
             onClick={() => sendRequestHandler()}
+            color="blue"
           >
             Send
           </Button>
