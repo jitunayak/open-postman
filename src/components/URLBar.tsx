@@ -10,7 +10,7 @@ type IProps = {
 };
 export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
   const x = [];
-  const { envs } = useStore();
+  const { envs, currentEnv } = useStore();
   const [cursorPosition, setCursorPosition] = useState(0);
   const [showDropDown, setShowDropDown] = useState(false);
   const [dropDownSelection, setDropDownSelection] = useState(0);
@@ -74,7 +74,10 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
             ) : (
               <Tooltip
                 withArrow
-                label={envs[0].list.find((l) => l.key === value)?.value}
+                label={
+                  currentEnv?.list.find((l) => l.key === value)?.value ??
+                  "undefined"
+                }
               >
                 <Mark
                   style={{

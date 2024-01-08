@@ -126,6 +126,8 @@ export interface IStore {
   setCollections: (data: ICollectionList[]) => void;
   selectedRequest: ICollectionRequest;
   setSelectRequest: (request: ICollectionRequest) => void;
+  currentEnv: IEnv | undefined
+  setCurrentEnv: (env?: IEnv)=> void;
 }
 
 export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
@@ -141,4 +143,8 @@ export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
   setSelectRequest: (request: ICollectionRequest) => {
     set({ selectedRequest: request });
   },
+  currentEnv: undefined,
+  setCurrentEnv: (env?: IEnv)=> {
+    set({ currentEnv: env});
+  }
 }));

@@ -80,9 +80,10 @@ const Playground1: React.FC<IProps> = ({
     "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
   ]);
 
-  const { envs } = useStore();
+  const { envs, setCollections, collections, currentEnv, setCurrentEnv } =
+    useStore();
   const getFinalUrlFromEnvironment = (url: string) => {
-    envs[0].list.forEach(
+    currentEnv?.list.forEach(
       (env) => (url = url.replaceAll(`{{${env.key}}}`, env.value))
     );
     return url;
@@ -143,6 +144,8 @@ const Playground1: React.FC<IProps> = ({
     }
   };
 
+  const handleCollectionLabelEdit = (label: string) => {};
+
   return (
     <Container>
       <Stack>
@@ -152,18 +155,29 @@ const Playground1: React.FC<IProps> = ({
             variant="unstyled"
             style={{ fontWeight: "700" }}
             fw={600}
+            onChange={(e) => handleCollectionLabelEdit(e.target.value)}
           />
           <Group>
-            <Button size="xs" rightIcon={<IconDeviceFloppy size={14} />}>
+            <Button
+              variant="subtle"
+              size="xs"
+              rightIcon={<IconDeviceFloppy size={14} />}
+            >
               Save
             </Button>
             <Select
               clearable
+              size="xs"
+              variant="unstyled"
               placeholder="No Environment"
-              data={envs.map((env, index) => ({
+              data={envs.map((env) => ({
                 label: env.label,
-                value: index.toString(),
+                value: env.id,
               }))}
+              value={currentEnv?.id}
+              onChange={(id) =>
+                setCurrentEnv(envs.find((env) => env.id === id) ?? undefined)
+              }
             />
           </Group>
         </Group>
