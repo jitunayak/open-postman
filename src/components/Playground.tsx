@@ -23,6 +23,7 @@ import styled from "styled-components";
 import { useStore } from "../store/useStore";
 import { getStatusColor } from "../utils/RequestUtils";
 import { URLBar } from "./URLBar";
+import { ICollectionRequest } from "../types/ICollectionRequest";
 // const AwsClient = require("aws4fetch");
 // import aws4 from "aws4-browser";
 
@@ -31,17 +32,22 @@ type IProps = {
   initialUrl?: string;
   initialMethodType?: string;
   initialBodyPayload?: string;
+  request: ICollectionRequest;
+  saveRequest: (item: ICollectionRequest) => void;
 };
 const Playground1: React.FC<IProps> = ({
   initialRequestName = "",
   initialUrl = "",
   initialBodyPayload = "",
   initialMethodType = "GET",
+  saveRequest,
+  request,
 }) => {
   const [url, setUrl] = useState(initialUrl);
   const [response, setResponse] = useState<AxiosResponse>();
   const [methodType, setMethodType] = useState(initialMethodType);
   const [bodyPayload, setBodyPayload] = useState(initialBodyPayload);
+  const [requestLabel, setRequestLabel] = useState(initialRequestName);
   const [authorization, setAuthorization] = useState("No Auth");
   const [axiosTimer, setAxiosTimer] = useState("");
   const [isResponseLoading, setIsResponseLoading] = useState(false);
@@ -144,24 +150,32 @@ const Playground1: React.FC<IProps> = ({
     }
   };
 
-  const handleCollectionLabelEdit = (label: string) => {};
+  const handleRequestSave = () => {
+    saveRequest({
+      ...request,
+      label: requestLabel,
+      url: url,
+      method: methodType,
+    });
+  };
 
   return (
     <Container>
       <Stack>
         <Group w="100%" style={{ justifyContent: "space-between" }}>
           <TextInput
-            value={initialRequestName}
+            value={requestLabel}
             variant="unstyled"
             style={{ fontWeight: "700" }}
             fw={600}
-            onChange={(e) => handleCollectionLabelEdit(e.target.value)}
+            onChange={(e) => setRequestLabel(e.target.value)}
           />
           <Group>
             <Button
               variant="subtle"
               size="xs"
               leftIcon={<IconDeviceFloppy size={14} />}
+              onClick={() => handleRequestSave()}
             >
               Save
             </Button>
@@ -185,7 +199,7 @@ const Playground1: React.FC<IProps> = ({
           <Select
             size="sm"
             placeholder="METHOD"
-            data={["GET", "POST", "PATCH", "DELETE"]}
+            data={["GET", "POST", "PUT", "PATCH", "DELETE"]}
             value={methodType}
             onChange={(e) => setMethodType(e ?? methodType)}
             w={"10rem"}

@@ -1,4 +1,4 @@
-import { DEFAULT_THEME, Text } from "@mantine/core";
+import { Button, Center, DEFAULT_THEME, Text } from "@mantine/core";
 import React, { memo } from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
@@ -16,7 +16,30 @@ const CollectionSidebar1: React.FC<IProps> = ({
   handleRequestChange,
   collections,
 }) => {
-  const { selectedRequest, setSelectRequest } = useStore();
+  const { selectedRequest, setSelectRequest, setCollections } = useStore();
+  const addNewRequest = (collectionId: string) => {
+    const collection = collections.find((c) => c.id === collectionId);
+    if (!collection) {
+      throw new Error("Collection not found");
+    }
+    const newRequest = {
+      id: "22222",
+      bodyPayload: "",
+      label: "New Request",
+      method: "GET",
+      parentId: collectionId,
+      url: "",
+    };
+    setCollections([
+      ...collections.filter((c) => c.id !== collectionId),
+      {
+        ...collection,
+        requests: [...collection?.requests, newRequest],
+      },
+    ]);
+
+    setSelectRequest(newRequest);
+  };
   return (
     <SidebarContainer>
       {collections.map((collection) => (
@@ -30,6 +53,7 @@ const CollectionSidebar1: React.FC<IProps> = ({
           >
             {collection.collectionName}
           </Text>
+
           <div>
             {collection.requests.map((item) => (
               <Request
@@ -51,6 +75,15 @@ const CollectionSidebar1: React.FC<IProps> = ({
                 <Text size={"sm"}>{item.label}</Text>
               </Request>
             ))}
+            <Center>
+              <Button
+                variant="subtle"
+                size="xs"
+                onClick={() => addNewRequest(collection.id)}
+              >
+                +
+              </Button>
+            </Center>
           </div>
         </>
         // <NavLink

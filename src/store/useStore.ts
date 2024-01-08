@@ -49,10 +49,12 @@ const initialEnv: IEnv[] = [
 
 const initialCollection: ICollectionList[] = [
   {
+    id: "1a",
     collectionName: "My Test Collection",
     requests: [
       {
         id: "1",
+        parentId: "1a",
         label: "get all quotes",
         url: "https://dev-quotes.deno.dev/api/v1/quotes",
         method: "GET",
@@ -60,6 +62,7 @@ const initialCollection: ICollectionList[] = [
       },
       {
         id: "3",
+        parentId: "1a",
         label: "create Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "POST",
@@ -76,6 +79,7 @@ const initialCollection: ICollectionList[] = [
       },
       {
         id: "4",
+        parentId: "1a",
         label: "get all Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "GET",
@@ -84,10 +88,12 @@ const initialCollection: ICollectionList[] = [
     ],
   },
   {
+    id: "1b",
     collectionName: "To Dos APIs",
     requests: [
       {
         id: "5",
+        parentId: "1b",
         label: "create Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "POST",
@@ -104,6 +110,7 @@ const initialCollection: ICollectionList[] = [
       },
       {
         id: "6",
+        parentId: "1b",
         label: "api gateway testing",
         url: "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
         method: "GET",
@@ -111,6 +118,7 @@ const initialCollection: ICollectionList[] = [
       },
       {
         id: "7",
+        parentId: "1b",
         label: "Variable Test",
         url: "{{BASE_URL}}/todo/{{ID}}",
         method: "GET",
@@ -126,8 +134,8 @@ export interface IStore {
   setCollections: (data: ICollectionList[]) => void;
   selectedRequest: ICollectionRequest;
   setSelectRequest: (request: ICollectionRequest) => void;
-  currentEnv: IEnv | undefined
-  setCurrentEnv: (env?: IEnv)=> void;
+  currentEnv: IEnv | undefined;
+  setCurrentEnv: (env?: IEnv) => void;
 }
 
 export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
@@ -144,7 +152,7 @@ export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
     set({ selectedRequest: request });
   },
   currentEnv: undefined,
-  setCurrentEnv: (env?: IEnv)=> {
-    set({ currentEnv: env});
-  }
+  setCurrentEnv: (env?: IEnv) => {
+    set({ currentEnv: env });
+  },
 }));

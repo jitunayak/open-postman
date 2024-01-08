@@ -1,5 +1,6 @@
 export interface ICollectionRequest {
     id: string;
+    parentId: string;
     label: string;
     url: string;
     method: string;
@@ -7,6 +8,7 @@ export interface ICollectionRequest {
 }
 
 export interface ICollectionList {
+    id:string;
     collectionName: string;
     requests: ICollectionRequest[]
 }

@@ -22,7 +22,10 @@ export const getRequestMethodColor = (methodType: string) => {
   }
 
   if (methodType === "PUT") {
-    return "orange";
+    return "blue";
+  }
+  if (methodType === "PATCH") {
+    return "mediumslateblue";
   }
 
   if (methodType === "DELETE") {
