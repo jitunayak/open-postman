@@ -122,7 +122,7 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
                     color: "white",
                     backgroundColor:
                       index === dropDownSelection
-                        ? DEFAULT_THEME.colors.orange[8]
+                        ? DEFAULT_THEME.colors.orange[7]
                         : "transparent",
                   }}
                 >
@@ -143,6 +143,7 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
                   </td>
                   <td
                     style={{
+                      padding: "0rem 1rem",
                       color:
                         index === dropDownSelection
                           ? "#eee"
@@ -211,7 +212,7 @@ const DropDownBox = styled.div<{ left: string }>`
   z-index: 20;
   left: ${(props) => props.left};
   border-radius: ${DEFAULT_THEME.radius.sm};
-  background-color: ${DEFAULT_THEME.colors.dark[7]};
+  background-color: ${DEFAULT_THEME.colors.dark[5]};
   display: flex;
   margin-top: 2.6rem;
   flex-direction: column;

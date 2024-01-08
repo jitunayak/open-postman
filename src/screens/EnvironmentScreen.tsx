@@ -155,7 +155,7 @@ const SideBarItem = styled.div<{ $active: boolean }>`
   padding: 0.6rem 4rem;
   font-size: 10pt;
   border-radius: ${DEFAULT_THEME.radius.xs};
-  border-right: ${(props) =>
+  border-left: ${(props) =>
     props.$active
       ? `2px solid ${DEFAULT_THEME.colors.orange[6]}`
       : "2px solid transparent"};

@@ -1,4 +1,4 @@
-import { DEFAULT_THEME, Text } from "@mantine/core";
+import { Button, DEFAULT_THEME, Divider, Text } from "@mantine/core";
 import {
   IconBookmark,
   IconHistory,
@@ -63,6 +63,7 @@ const MainWindowController1: React.FC = () => {
           icon={<IconSettings size={25} stroke={1.6} />}
         ></TabItem>
       </SideTab>
+
       {tabSelectedIndex === 0 && <CollectionScreen />}
       {tabSelectedIndex === 1 && <EnvironmentScreen />}
       {tabSelectedIndex === 2 && <Text>History Screen</Text>}
@@ -78,6 +79,8 @@ const Container = styled.span`
 
 const SideTab = styled.div`
   position: fixed;
+  height: 100%;
+  background-color: ${DEFAULT_THEME.colors.dark[8]};
 `;
 const Tab = styled.span<{ $active: boolean }>`
   display: flex;
@@ -95,7 +98,7 @@ const Tab = styled.span<{ $active: boolean }>`
       ? DEFAULT_THEME.colors.dark[0]
       : DEFAULT_THEME.colors.dark[2]};
   background-color: ${(props) =>
-    props.$active ? DEFAULT_THEME.colors.dark[4] : "transparent"};
+    props.$active ? DEFAULT_THEME.colors.dark[7] : "transparent"};
   border-left: ${(props) =>
     props.$active
       ? `2px solid ${DEFAULT_THEME.colors.orange[6]}`

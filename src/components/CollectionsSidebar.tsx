@@ -21,7 +21,13 @@ const CollectionSidebar1: React.FC<IProps> = ({
     <SidebarContainer>
       {collections.map((collection) => (
         <>
-          <Text size={"sm"} fw={600} mt={"lg"}>
+          <Text
+            size={"sm"}
+            fw={600}
+            mt={"lg"}
+            mb={"sm"}
+            style={{ cursor: "pointer" }}
+          >
             {collection.collectionName}
           </Text>
           <div>
@@ -66,7 +72,10 @@ const CollectionSidebar1: React.FC<IProps> = ({
 
 const SidebarContainer = styled.div`
   position: fixed;
-  left: 6rem;
+  left: 6.3rem;
+  height: 100%;
+  background-color: ${DEFAULT_THEME.colors.dark[7]};
+  padding-left: 0.6rem;
 `;
 
 const Request = styled.div<{ $active: boolean }>`
@@ -80,16 +89,16 @@ const Request = styled.div<{ $active: boolean }>`
   align-content: center;
   gap: 0.6rem;
   background-color: ${(props) =>
-    props.$active ? DEFAULT_THEME.colors.dark[4] : "transparent"};
+    props.$active ? DEFAULT_THEME.colors.dark[5] : "transparent"};
   border-left: ${(props) =>
     `2px solid ${
-      props.$active ? DEFAULT_THEME.colors.orange[6] : "transparent"
+      props.$active ? DEFAULT_THEME.colors.orange[7] : "transparent"
     }`};
 
   &:hover {
     background-color: ${(props) =>
       props.$active
-        ? DEFAULT_THEME.colors.dark[4]
+        ? DEFAULT_THEME.colors.dark[5]
         : DEFAULT_THEME.colors.dark[6]};
   }
 `;

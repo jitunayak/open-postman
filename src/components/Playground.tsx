@@ -161,7 +161,7 @@ const Playground1: React.FC<IProps> = ({
             <Button
               variant="subtle"
               size="xs"
-              rightIcon={<IconDeviceFloppy size={14} />}
+              leftIcon={<IconDeviceFloppy size={14} />}
             >
               Save
             </Button>
@@ -197,7 +197,6 @@ const Playground1: React.FC<IProps> = ({
             rightIcon={<IconSend2 size={16} />}
             loading={isResponseLoading}
             onClick={() => sendRequestHandler()}
-            color="blue"
           >
             Send
           </Button>
