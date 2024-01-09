@@ -29,7 +29,7 @@ import { ICollectionRequest } from "../types/ICollectionRequest";
 
 type IProps = {
   initialRequestName: string;
-  initialUrl?: string;
+  initialUrl: string;
   initialMethodType?: string;
   initialBodyPayload?: string;
   request: ICollectionRequest;
@@ -60,6 +60,7 @@ const Playground1: React.FC<IProps> = ({
       region: "us-east-1",
     },
   });
+
   const axiosTimerFunc = (startTime: number) => {
     let now = Date.now();
     let seconds = Math.floor((now - startTime) / 1000);
@@ -67,6 +68,7 @@ const Playground1: React.FC<IProps> = ({
     setAxiosTimer(`${seconds}.${milliseconds} seconds`);
   };
 
+  useEffect(() => setRequestLabel(initialRequestName), [initialRequestName]);
   useEffect(() => {
     setUrl(initialUrl);
   }, [initialUrl]);
@@ -156,6 +158,7 @@ const Playground1: React.FC<IProps> = ({
       label: requestLabel,
       url: url,
       method: methodType,
+      bodyPayload: bodyPayload,
     });
   };
 
@@ -165,9 +168,8 @@ const Playground1: React.FC<IProps> = ({
         <Group w="100%" style={{ justifyContent: "space-between" }}>
           <TextInput
             value={requestLabel}
+            defaultValue={request.label}
             variant="unstyled"
-            style={{ fontWeight: "700" }}
-            fw={600}
             onChange={(e) => setRequestLabel(e.target.value)}
           />
           <Group>
