@@ -23,32 +23,19 @@ import styled from "styled-components";
 import { useStore } from "../store/useStore";
 import { getStatusColor } from "../utils/RequestUtils";
 import { URLBar } from "./URLBar";
-import { ICollectionRequest } from "../types/ICollectionRequest";
-// const AwsClient = require("aws4fetch");
-// import aws4 from "aws4-browser";
+import {
+  AuthenticationTypes,
+  ICollectionRequest,
+} from "../types/ICollectionRequest";
 
 type IProps = {
-  initialRequestName: string;
-  initialUrl: string;
-  initialMethodType?: string;
-  initialBodyPayload?: string;
   request: ICollectionRequest;
   saveRequest: (item: ICollectionRequest) => void;
 };
-const Playground1: React.FC<IProps> = ({
-  initialRequestName = "",
-  initialUrl = "",
-  initialBodyPayload = "",
-  initialMethodType = "GET",
-  saveRequest,
-  request,
-}) => {
-  const [url, setUrl] = useState(initialUrl);
+const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
+  const { envs, currentEnv, setCurrentEnv } = useStore();
+
   const [response, setResponse] = useState<AxiosResponse>();
-  const [methodType, setMethodType] = useState(initialMethodType);
-  const [bodyPayload, setBodyPayload] = useState(initialBodyPayload);
-  const [requestLabel, setRequestLabel] = useState(initialRequestName);
-  const [authorization, setAuthorization] = useState("No Auth");
   const [axiosTimer, setAxiosTimer] = useState("");
   const [isResponseLoading, setIsResponseLoading] = useState(false);
 
@@ -61,25 +48,16 @@ const Playground1: React.FC<IProps> = ({
     },
   });
 
+  const form = useForm({
+    initialValues: request,
+  });
+
   const axiosTimerFunc = (startTime: number) => {
     let now = Date.now();
     let seconds = Math.floor((now - startTime) / 1000);
     let milliseconds = Math.floor((now - startTime) % 1000);
     setAxiosTimer(`${seconds}.${milliseconds} seconds`);
   };
-
-  useEffect(() => setRequestLabel(initialRequestName), [initialRequestName]);
-  useEffect(() => {
-    setUrl(initialUrl);
-  }, [initialUrl]);
-
-  useEffect(() => {
-    setMethodType(initialMethodType);
-  }, [initialMethodType]);
-
-  useEffect(() => {
-    setBodyPayload(initialBodyPayload);
-  }, [initialBodyPayload]);
 
   const [urlHistory, setUrlHistory] = useState([
     "http://localhost:3000",
@@ -88,8 +66,6 @@ const Playground1: React.FC<IProps> = ({
     "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
   ]);
 
-  const { envs, setCollections, collections, currentEnv, setCurrentEnv } =
-    useStore();
   const getFinalUrlFromEnvironment = (url: string) => {
     currentEnv?.list.forEach(
       (env) => (url = url.replaceAll(`{{${env.key}}}`, env.value))
@@ -104,11 +80,11 @@ const Playground1: React.FC<IProps> = ({
     const client = axios.create({ adapter: axiosTauriApiAdapter });
 
     const suggestions = new Set(urlHistory);
-    suggestions.add(url);
+    suggestions.add(form.values.url);
     setUrlHistory([...suggestions]);
-    const actualUrl = getFinalUrlFromEnvironment(url);
+    const actualUrl = getFinalUrlFromEnvironment(form.values.url);
 
-    if (authorization === "AWS Signature") {
+    if (form.values.authorization === AuthenticationTypes.AWS_Signature) {
       const { accessKeyId, secretAccessKey, sessionToken, region } =
         awsForm.values;
       const interceptor = aws4Interceptor({
@@ -127,7 +103,7 @@ const Playground1: React.FC<IProps> = ({
     }
 
     try {
-      switch (methodType) {
+      switch (form.values.method) {
         case "GET": {
           const result = await client.get(actualUrl);
           setResponse(result);
@@ -135,7 +111,7 @@ const Playground1: React.FC<IProps> = ({
           break;
         }
         case "POST": {
-          const result = await client.post(actualUrl, bodyPayload);
+          const result = await client.post(actualUrl, form.values.bodyPayload);
           setResponse(result);
           console.log(result.data);
           break;
@@ -153,24 +129,21 @@ const Playground1: React.FC<IProps> = ({
   };
 
   const handleRequestSave = () => {
-    saveRequest({
-      ...request,
-      label: requestLabel,
-      url: url,
-      method: methodType,
-      bodyPayload: bodyPayload,
-    });
+    saveRequest(form.values);
   };
+
+  useEffect(() => {
+    form.setValues(request);
+  }, [request]);
 
   return (
     <Container>
       <Stack>
         <Group w="100%" style={{ justifyContent: "space-between" }}>
           <TextInput
-            value={requestLabel}
             defaultValue={request.label}
             variant="unstyled"
-            onChange={(e) => setRequestLabel(e.target.value)}
+            {...form.getInputProps("label")}
           />
           <Group>
             <Button
@@ -200,13 +173,15 @@ const Playground1: React.FC<IProps> = ({
         <Header>
           <Select
             size="sm"
+            w={"10rem"}
             placeholder="METHOD"
             data={["GET", "POST", "PUT", "PATCH", "DELETE"]}
-            value={methodType}
-            onChange={(e) => setMethodType(e ?? methodType)}
-            w={"10rem"}
+            {...form.getInputProps("method")}
           />
-          <URLBar setUrl={setUrl} url={url} />
+          <URLBar
+            setUrl={(urlString) => form.setFieldValue("label", urlString)}
+            url={form.values.url}
+          />
           <Button
             size="sm"
             style={{ position: "absolute", right: "0" }}
@@ -230,16 +205,29 @@ const Playground1: React.FC<IProps> = ({
               <Grid.Col span={2}>
                 <Select
                   label="Authorization"
-                  data={["Inherit", "No Auth", "AWS Signature"]}
+                  data={[
+                    {
+                      label: AuthenticationTypes.Inherit,
+                      value: AuthenticationTypes.Inherit,
+                    },
+                    {
+                      value: AuthenticationTypes.No_Auth,
+                      label: AuthenticationTypes.No_Auth,
+                    },
+                    {
+                      label: AuthenticationTypes.AWS_Signature,
+                      value: AuthenticationTypes.AWS_Signature,
+                    },
+                  ]}
                   ta={"start"}
-                  defaultValue={"AWS Signature"}
-                  value={authorization}
-                  onChange={(e) => setAuthorization(e ?? "")}
                   w={"10rem"}
                   size="xs"
+                  defaultValue={request.authorization}
+                  {...form.getInputProps("authorization")}
                 />
               </Grid.Col>
-              {authorization === "AWS Signature" && (
+              {form.values.authorization ===
+                AuthenticationTypes.AWS_Signature && (
                 <Grid.Col span={8}>
                   <div style={{ display: "flex", gap: "1rem" }}>
                     <Table verticalSpacing={"md"}>
@@ -251,9 +239,11 @@ const Playground1: React.FC<IProps> = ({
                         </td>
                         <td>
                           <TextInput
-                            placeholder="us-east-1"
+                            placeholder="e.g. us-east-1"
                             defaultValue={awsForm.values.region}
-                            {...awsForm.getInputProps("region")}
+                            {...form.getInputProps(
+                              "authorizationDetails.region"
+                            )}
                           />
                         </td>
                       </tr>
@@ -266,7 +256,9 @@ const Playground1: React.FC<IProps> = ({
                         <td>
                           <TextInput
                             placeholder="Access Key"
-                            {...awsForm.getInputProps("accessKeyId")}
+                            {...form.getInputProps(
+                              "authorizationDetails.accessKeyId"
+                            )}
                           />
                         </td>
                       </tr>
@@ -279,7 +271,9 @@ const Playground1: React.FC<IProps> = ({
                         <td>
                           <TextInput
                             placeholder="Secret Key"
-                            {...awsForm.getInputProps("secretAccessKey")}
+                            {...form.getInputProps(
+                              "authorizationDetails.secretAccessKey"
+                            )}
                           />
                         </td>
                       </tr>
@@ -292,7 +286,9 @@ const Playground1: React.FC<IProps> = ({
                         <td>
                           <Textarea
                             placeholder="Session Token"
-                            {...awsForm.getInputProps("sessionToken")}
+                            {...form.getInputProps(
+                              "authorizationDetails.sessionToken"
+                            )}
                           />
                         </td>
                       </tr>
@@ -309,9 +305,8 @@ const Playground1: React.FC<IProps> = ({
               label="Body"
               autosize
               ta={"start"}
-              onChange={(e) => setBodyPayload(e.target.value)}
-              value={bodyPayload}
               style={{ overflowY: "auto", maxHeight: "26rem" }}
+              {...form.getInputProps("bodyPayload")}
             />
           </Tabs.Panel>
 

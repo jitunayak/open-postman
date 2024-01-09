@@ -3,10 +3,12 @@ import React, { memo } from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
 import {
+  AuthenticationTypes,
   ICollectionList,
   ICollectionRequest,
 } from "../types/ICollectionRequest";
 import { getRequestMethodColor } from "../utils/RequestUtils";
+import { useId } from "@mantine/hooks";
 
 type IProps = {
   collections: ICollectionList[];
@@ -22,13 +24,17 @@ const CollectionSidebar1: React.FC<IProps> = ({
     if (!collection) {
       throw new Error("Collection not found");
     }
-    const newRequest = {
-      id: "22222",
+    const newRequest: ICollectionRequest = {
+      id: useId(),
       bodyPayload: "",
       label: "New Request",
       method: "GET",
       parentId: collectionId,
       url: "",
+      authorization: AuthenticationTypes.Inherit,
+      authorizationDetails: {
+        name: AuthenticationTypes.Inherit,
+      },
     };
     setCollections([
       ...collections.filter((c) => c.id !== collectionId),

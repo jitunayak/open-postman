@@ -42,14 +42,7 @@ export const CollectionScreen: React.FC = ({}) => {
 
       {selectedRequest && (
         <PlaygroundContainer>
-          <Playground
-            initialBodyPayload={selectedRequest.bodyPayload}
-            initialMethodType={selectedRequest.method}
-            initialUrl={selectedRequest.url}
-            initialRequestName={selectedRequest.label}
-            saveRequest={saveRequest}
-            request={selectedRequest}
-          />
+          <Playground saveRequest={saveRequest} request={selectedRequest} />
         </PlaygroundContainer>
       )}
     </>

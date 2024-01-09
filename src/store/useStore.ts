@@ -1,5 +1,6 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
 import {
+  AuthenticationTypes,
   ICollectionList,
   ICollectionRequest,
 } from "../types/ICollectionRequest";
@@ -59,6 +60,10 @@ const initialCollection: ICollectionList[] = [
         url: "https://dev-quotes.deno.dev/api/v1/quotes",
         method: "GET",
         bodyPayload: "",
+        authorization: AuthenticationTypes.No_Auth,
+        authorizationDetails: {
+          name: AuthenticationTypes.No_Auth,
+        },
       },
       {
         id: "3",
@@ -66,6 +71,10 @@ const initialCollection: ICollectionList[] = [
         label: "create Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "POST",
+        authorization: AuthenticationTypes.No_Auth,
+        authorizationDetails: {
+          name: AuthenticationTypes.No_Auth,
+        },
         bodyPayload: JSON.stringify(
           {
             userId: 10,
@@ -84,6 +93,10 @@ const initialCollection: ICollectionList[] = [
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "GET",
         bodyPayload: "",
+        authorization: AuthenticationTypes.No_Auth,
+        authorizationDetails: {
+          name: AuthenticationTypes.No_Auth,
+        },
       },
     ],
   },
@@ -97,6 +110,10 @@ const initialCollection: ICollectionList[] = [
         label: "create Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "POST",
+        authorization: AuthenticationTypes.No_Auth,
+        authorizationDetails: {
+          name: AuthenticationTypes.No_Auth,
+        },
         bodyPayload: JSON.stringify(
           {
             userId: 10,
@@ -115,6 +132,10 @@ const initialCollection: ICollectionList[] = [
         url: "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
         method: "GET",
         bodyPayload: "",
+        authorization: AuthenticationTypes.No_Auth,
+        authorizationDetails: {
+          name: AuthenticationTypes.No_Auth,
+        },
       },
       {
         id: "7",
@@ -123,6 +144,14 @@ const initialCollection: ICollectionList[] = [
         url: "{{BASE_URL}}/todo/{{ID}}",
         method: "GET",
         bodyPayload: "",
+        authorization: AuthenticationTypes.AWS_Signature,
+        authorizationDetails: {
+          name: AuthenticationTypes.AWS_Signature,
+          region: "us-east-1",
+          accessKeyId: "access-key-123456789abcdef",
+          secretAccessKey: "secret-access-key",
+          sessionToken: "session-token",
+        },
       },
     ],
   },
