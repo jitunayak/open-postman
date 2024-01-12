@@ -1,13 +1,5 @@
-import {
-  ActionIcon,
-  Button,
-  Center,
-  DEFAULT_THEME,
-  Group,
-  Space,
-  Text,
-} from "@mantine/core";
-import React, { memo } from "react";
+import { ActionIcon, DEFAULT_THEME, Group, Space, Text } from "@mantine/core";
+import React from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
 import {
@@ -16,7 +8,6 @@ import {
   ICollectionRequest,
 } from "../types/ICollectionRequest";
 import { getRequestMethodColor } from "../utils/RequestUtils";
-import { useId } from "@mantine/hooks";
 
 type IProps = {
   collections: ICollectionList[];
@@ -27,15 +18,18 @@ export const CollectionSidebar: React.FC<IProps> = ({
   collections,
 }) => {
   const { selectedRequest, setSelectRequest, setCollections } = useStore();
-  const id = useId();
   const addNewRequest = (collectionId: string) => {
     const collection = collections.find((c) => c.id === collectionId);
     if (!collection) {
       throw new Error("Collection not found");
     }
 
+    const id = (Math.random().toString(36) + "000000000000000000000").slice(
+      2,
+      16
+    );
     const newRequest: ICollectionRequest = {
-      id: (Math.random().toString(36) + "00000000000000000").slice(2, 7),
+      id,
       bodyPayload: "",
       label: "New Request" + id,
       method: "GET",
@@ -46,16 +40,23 @@ export const CollectionSidebar: React.FC<IProps> = ({
         name: AuthenticationTypes.Inherit,
       },
     };
-    setCollections([
-      ...collections.filter((c) => c.id !== collectionId),
-      {
-        ...collection,
-        requests: [...collection?.requests, newRequest],
-      },
-    ]);
+    const collectionIndex = collections.findIndex((c) => c.id === collectionId);
+    setCollections(
+      collections.map((obj, i) => {
+        if (i === collectionIndex) {
+          return {
+            ...collection,
+            requests: [...collection.requests, newRequest],
+          };
+        } else {
+          return obj;
+        }
+      })
+    );
 
     setSelectRequest(newRequest);
   };
+
   return (
     <SidebarContainer>
       {collections.map((collection) => (

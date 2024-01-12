@@ -3,10 +3,7 @@ import styled from "styled-components";
 import { CollectionSidebar } from "../components/CollectionsSidebar";
 import { Playground } from "../components/Playground";
 import { useStore } from "../store/useStore";
-import {
-  ICollectionList,
-  ICollectionRequest,
-} from "../types/ICollectionRequest";
+import { ICollectionRequest } from "../types/ICollectionRequest";
 import { ScrollArea } from "@mantine/core";
 
 export const CollectionScreen: React.FC = ({}) => {
@@ -18,21 +15,28 @@ export const CollectionScreen: React.FC = ({}) => {
   };
 
   const saveRequest = (item: ICollectionRequest) => {
-    const collection = collections.find((c) => c.id === item.parentId);
-    if (!collection) {
-      throw new Error("Collection invalid");
-    }
-    const update: ICollectionList[] = [
-      ...collections.filter((collection) => collection.id !== item.parentId),
-      {
-        ...collection,
-        requests: [
-          ...collection.requests.filter((rq) => rq.id !== item.id),
-          item,
-        ],
-      },
-    ];
-    setCollections(update);
+    const collectionIndex = collections.findIndex(
+      (c) => c.id === item.parentId
+    );
+    const requestIndex = collections[collectionIndex].requests.findIndex(
+      (c) => c.id === item.id
+    );
+
+    const updatedCollectionRequests = collections[collectionIndex].requests;
+    updatedCollectionRequests[requestIndex] = item;
+
+    setCollections(
+      collections.map((obj, i) => {
+        if (i === collectionIndex) {
+          return {
+            ...collections[collectionIndex],
+            requests: updatedCollectionRequests,
+          };
+        } else {
+          return obj;
+        }
+      })
+    );
   };
   return (
     <>
