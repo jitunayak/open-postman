@@ -182,25 +182,33 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           </Group>
         </Group>
         <Header>
-          <Select
-            size="sm"
-            w={"10rem"}
-            placeholder="METHOD"
-            data={["GET", "POST", "PUT", "PATCH", "DELETE"]}
-            {...form.getInputProps("method")}
-          />
-          <URLBar
-            setUrl={(urlString) => form.setFieldValue("url", urlString)}
-            url={form.values.url}
-          />
-          <Button
-            size="sm"
-            rightIcon={<IconSend2 size={16} />}
-            loading={isResponseLoading}
-            onClick={() => sendRequestHandler()}
-          >
-            Send
-          </Button>
+          <Grid columns={24}>
+            <Grid.Col span={3}>
+              <Select
+                size="sm"
+                w={"8rem"}
+                placeholder="METHOD"
+                data={["GET", "POST", "PUT", "PATCH", "DELETE"]}
+                {...form.getInputProps("method")}
+              />
+            </Grid.Col>
+            <Grid.Col span={18}>
+              <URLBar
+                setUrl={(urlString) => form.setFieldValue("url", urlString)}
+                url={form.values.url}
+              />
+            </Grid.Col>
+            <Grid.Col span={3}>
+              <Button
+                size="sm"
+                rightIcon={<IconSend2 size={16} />}
+                loading={isResponseLoading}
+                onClick={() => sendRequestHandler()}
+              >
+                Send
+              </Button>
+            </Grid.Col>
+          </Grid>
         </Header>
         <Tabs defaultValue="authorization" mt={"md"}>
           <Tabs.List>
@@ -371,17 +379,22 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
 
 const Container = styled.div`
   margin-left: 1rem;
-  position: fixed;
+  /* position: fixed; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 95%;
-  width: 78%;
+  height: 100%;
+  width: 116vh;
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`
-  display: inline-flex;
   width: 100%;
+  /* background-color: red; */
+  /* display: flex;
+  justify-content: start;
+  flex-direction: row;
+  flex: 1;
+  flex-wrap: wrap; */
 `;
 
 export const Playground = memo(Playground1);

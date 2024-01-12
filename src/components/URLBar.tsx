@@ -62,39 +62,40 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
     setUrl("https://");
   }, [url.length === 0]);
   return (
-    <Container>
-      <URLBarHighlight
-        suppressContentEditableWarning
-        onBlur={(e) => setUrl(e.target.innerText)}
-      >
-        {url.split(/{{(.*?)}}/g).map((value) => (
-          <>
-            {url.search(`{{${value}}}`) < 0 ? (
-              <Text color="white">{value}</Text>
-            ) : (
-              <Tooltip
-                withArrow
-                label={
-                  currentEnv?.list.find((l) => l.key === value)?.value ??
-                  "undefined"
-                }
-              >
-                <Mark
-                  style={{
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: "transparent",
-                    color: DEFAULT_THEME.colors.orange[8],
-                  }}
+    <>
+      <Container>
+        <URLBarHighlight
+          suppressContentEditableWarning
+          onBlur={(e) => setUrl(e.target.innerText)}
+        >
+          {url.split(/{{(.*?)}}/g).map((value) => (
+            <>
+              {url.search(`{{${value}}}`) < 0 ? (
+                <Text color="white">{value}</Text>
+              ) : (
+                <Tooltip
+                  withArrow
+                  label={
+                    currentEnv?.list.find((l) => l.key === value)?.value ??
+                    "undefined"
+                  }
                 >
-                  {`{{${value}}}`}
-                </Mark>
-              </Tooltip>
-            )}
-          </>
-        ))}
-      </URLBarHighlight>
-      <>
+                  <Mark
+                    style={{
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: "transparent",
+                      color: DEFAULT_THEME.colors.orange[8],
+                    }}
+                  >
+                    {`{{${value}}}`}
+                  </Mark>
+                </Tooltip>
+              )}
+            </>
+          ))}
+        </URLBarHighlight>
+
         <HiddenUserInput
           placeholder=""
           autoComplete=""
@@ -112,60 +113,63 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
             }
           }}
         />
-        {showDropDown && (
-          <DropDownBox left={`${cursorPosition * 2 + 200}px`}>
-            <table>
-              {envs[0].list.map((item, index) => (
-                <tr
-                  key={index}
-                  style={{
-                    color: "white",
-                    backgroundColor:
-                      index === dropDownSelection
-                        ? DEFAULT_THEME.colors.orange[7]
-                        : "transparent",
-                  }}
-                >
-                  <td>
-                    <DropDownItem
-                      onClick={() => {
-                        //  setUrl(`${url}${item.key}}}`);
-                        const result =
-                          url.slice(0, cursorPosition) +
-                          `${item.key}}}` +
-                          url.slice(cursorPosition);
-                        setUrl(result);
-                        setShowDropDown(false);
-                      }}
-                    >
-                      {item.key}
-                    </DropDownItem>
-                  </td>
-                  <td
-                    style={{
-                      padding: "0rem 1rem",
-                      color:
-                        index === dropDownSelection
-                          ? "#eee"
-                          : DEFAULT_THEME.colors.dark[0],
+      </Container>
+      {showDropDown && (
+        <DropDownBox
+          left={`${
+            cursorPosition > 50 ? cursorPosition - 40 : cursorPosition
+          }rem`}
+        >
+          <table>
+            {envs[0].list.map((item, index) => (
+              <tr
+                key={index}
+                style={{
+                  color: "white",
+                  backgroundColor:
+                    index === dropDownSelection
+                      ? DEFAULT_THEME.colors.orange[7]
+                      : "transparent",
+                }}
+              >
+                <td>
+                  <DropDownItem
+                    onClick={() => {
+                      //  setUrl(`${url}${item.key}}}`);
+                      const result =
+                        url.slice(0, cursorPosition) +
+                        `${item.key}}}` +
+                        url.slice(cursorPosition);
+                      setUrl(result);
+                      setShowDropDown(false);
                     }}
                   >
-                    {item.value}
-                  </td>
-                </tr>
-              ))}
-            </table>
-          </DropDownBox>
-        )}
-      </>
-    </Container>
+                    {item.key}
+                  </DropDownItem>
+                </td>
+                <td
+                  style={{
+                    padding: "0rem 1rem",
+                    color:
+                      index === dropDownSelection
+                        ? "#eee"
+                        : DEFAULT_THEME.colors.dark[0],
+                  }}
+                >
+                  {item.value}
+                </td>
+              </tr>
+            ))}
+          </table>
+        </DropDownBox>
+      )}
+    </>
   );
 };
 
 const Container = styled.div`
   position: relative;
   width: 100%;
-  margin-right: 1rem;
 `;
 
 const HiddenUserInput = styled.input`
