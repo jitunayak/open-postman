@@ -62,7 +62,7 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
     setUrl("https://");
   }, [url.length === 0]);
   return (
-    <>
+    <Container>
       <URLBarHighlight
         suppressContentEditableWarning
         onBlur={(e) => setUrl(e.target.innerText)}
@@ -158,14 +158,20 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
           </DropDownBox>
         )}
       </>
-    </>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  margin-right: 1rem;
+`;
+
 const HiddenUserInput = styled.input`
   font: inherit;
-  left: 10rem;
-  width: 80%;
+  /* left: 10rem; */
+  width: 100%;
   height: 16px;
   position: absolute;
   background-color: transparent;
@@ -185,8 +191,8 @@ const HiddenUserInput = styled.input`
 const URLBarHighlight = styled.div`
   outline: none;
   position: absolute;
-  width: 77%;
-  left: 10rem;
+  width: 100%;
+  /* left: 10rem; */
   font-size: 11pt;
   margin: 0rem 0.6rem;
   padding: 0.35rem 1rem;

@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Button,
   DEFAULT_THEME,
   Divider,
@@ -15,7 +16,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconDeviceFloppy, IconSend2 } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconSend2, IconTrash } from "@tabler/icons-react";
 import aws4Interceptor from "aws4-axios";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
@@ -133,6 +134,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
     saveRequest(form.values);
   };
 
+  const handleDeletionOfRequest = () => {};
   useEffect(() => {
     form.setValues(request);
   }, [request]);
@@ -147,6 +149,13 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
             {...form.getInputProps("label")}
           />
           <Group>
+            <ActionIcon
+              variant="default"
+              title="Delete current request"
+              onClick={() => handleDeletionOfRequest()}
+            >
+              <IconTrash size={16} color={DEFAULT_THEME.colors.red[4]} />
+            </ActionIcon>
             <Button
               variant="outline"
               disabled={JSON.stringify(request) === JSON.stringify(form.values)}
@@ -186,7 +195,6 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           />
           <Button
             size="sm"
-            style={{ position: "absolute", right: "0" }}
             rightIcon={<IconSend2 size={16} />}
             loading={isResponseLoading}
             onClick={() => sendRequestHandler()}
