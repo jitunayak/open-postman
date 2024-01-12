@@ -1,5 +1,6 @@
 import {
   Button,
+  DEFAULT_THEME,
   Divider,
   Grid,
   Group,
@@ -147,7 +148,8 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           />
           <Group>
             <Button
-              variant="subtle"
+              variant="outline"
+              disabled={JSON.stringify(request) === JSON.stringify(form.values)}
               size="xs"
               leftIcon={<IconDeviceFloppy size={14} />}
               onClick={() => handleRequestSave()}
@@ -157,7 +159,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
             <Select
               clearable
               size="xs"
-              variant="unstyled"
+              variant="default"
               placeholder="No Environment"
               data={envs.map((env) => ({
                 label: env.label,
@@ -179,7 +181,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
             {...form.getInputProps("method")}
           />
           <URLBar
-            setUrl={(urlString) => form.setFieldValue("label", urlString)}
+            setUrl={(urlString) => form.setFieldValue("url", urlString)}
             url={form.values.url}
           />
           <Button
@@ -360,13 +362,14 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
 };
 
 const Container = styled.div`
-  margin-left: 4rem;
+  margin-left: 1rem;
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 95%;
   width: 78%;
+  background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`
   display: inline-flex;

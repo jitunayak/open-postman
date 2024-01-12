@@ -28,7 +28,7 @@ function TabItem(props: {
   );
 }
 
-const MainWindowController1: React.FC = () => {
+export const MainWindowController: React.FC = () => {
   const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
 
   return (
@@ -78,8 +78,8 @@ const Container = styled.span`
 `;
 
 const SideTab = styled.div`
-  position: fixed;
-  height: 100%;
+  height: 100vh;
+  width: max-content;
   background-color: ${DEFAULT_THEME.colors.dark[8]};
 `;
 const Tab = styled.span<{ $active: boolean }>`
@@ -91,8 +91,8 @@ const Tab = styled.span<{ $active: boolean }>`
   padding: 0.4rem;
   height: 4.2rem;
   width: 5rem;
-  border-radius: ${DEFAULT_THEME.radius.xs};
-  margin: ${DEFAULT_THEME.spacing.xs};
+  /* border-radius: ${DEFAULT_THEME.radius.xs}; */
+  margin: 0.4rem;
   color: ${(props) =>
     props.$active
       ? DEFAULT_THEME.colors.dark[0]
@@ -104,5 +104,3 @@ const Tab = styled.span<{ $active: boolean }>`
       ? `2px solid ${DEFAULT_THEME.colors.orange[6]}`
       : "2px solid transparent"};
 `;
-
-export const MainWindowController = memo(MainWindowController1);

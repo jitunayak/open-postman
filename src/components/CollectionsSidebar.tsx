@@ -1,4 +1,12 @@
-import { Button, Center, DEFAULT_THEME, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Center,
+  DEFAULT_THEME,
+  Group,
+  Space,
+  Text,
+} from "@mantine/core";
 import React, { memo } from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
@@ -14,20 +22,22 @@ type IProps = {
   collections: ICollectionList[];
   handleRequestChange: (e: ICollectionRequest) => void;
 };
-const CollectionSidebar1: React.FC<IProps> = ({
+export const CollectionSidebar: React.FC<IProps> = ({
   handleRequestChange,
   collections,
 }) => {
   const { selectedRequest, setSelectRequest, setCollections } = useStore();
+  const id = useId();
   const addNewRequest = (collectionId: string) => {
     const collection = collections.find((c) => c.id === collectionId);
     if (!collection) {
       throw new Error("Collection not found");
     }
+
     const newRequest: ICollectionRequest = {
-      id: useId(),
+      id: (Math.random().toString(36) + "00000000000000000").slice(2, 7),
       bodyPayload: "",
-      label: "New Request",
+      label: "New Request" + id,
       method: "GET",
       parentId: collectionId,
       url: "",
@@ -50,15 +60,18 @@ const CollectionSidebar1: React.FC<IProps> = ({
     <SidebarContainer>
       {collections.map((collection) => (
         <>
-          <Text
-            size={"sm"}
-            fw={600}
-            mt={"lg"}
-            mb={"sm"}
-            style={{ cursor: "pointer" }}
-          >
-            {collection.collectionName}
-          </Text>
+          <Group align="center">
+            <ActionIcon
+              variant="subtle"
+              size="xs"
+              onClick={() => addNewRequest(collection.id)}
+            >
+              +
+            </ActionIcon>
+            <Text size={"sm"} fw={600} my={"lg"} style={{ cursor: "pointer" }}>
+              {collection.collectionName}
+            </Text>
+          </Group>
 
           <div>
             {collection.requests.map((item) => (
@@ -81,40 +94,20 @@ const CollectionSidebar1: React.FC<IProps> = ({
                 <Text size={"sm"}>{item.label}</Text>
               </Request>
             ))}
-            <Center>
-              <Button
-                variant="subtle"
-                size="xs"
-                onClick={() => addNewRequest(collection.id)}
-              >
-                +
-              </Button>
-            </Center>
           </div>
         </>
-        // <NavLink
-        //   label={collection.collectionName}
-        //   childrenOffset={28}
-        //   defaultOpened
-        // >
-        //   {collection.requests.map((item) => (
-        //     <NavLink
-        //       label={`${item.label}`}
-        //       onClick={() => handleRequestChange(item)}
-        //     />
-        //   ))}
-        // </NavLink>
       ))}
+      <Space h={100} />
     </SidebarContainer>
   );
 };
 
 const SidebarContainer = styled.div`
-  position: fixed;
-  left: 6.3rem;
-  height: 100%;
+  height: 100vh;
+  width: auto;
+  overflow-y: scroll;
   background-color: ${DEFAULT_THEME.colors.dark[7]};
-  padding-left: 0.6rem;
+  border-right: 1px solid ${DEFAULT_THEME.colors.dark[5]};
 `;
 
 const Request = styled.div<{ $active: boolean }>`
@@ -141,5 +134,3 @@ const Request = styled.div<{ $active: boolean }>`
         : DEFAULT_THEME.colors.dark[6]};
   }
 `;
-
-export const CollectionSidebar = memo(CollectionSidebar1);

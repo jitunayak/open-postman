@@ -7,6 +7,7 @@ import {
   ICollectionList,
   ICollectionRequest,
 } from "../types/ICollectionRequest";
+import { ScrollArea } from "@mantine/core";
 
 export const CollectionScreen: React.FC = ({}) => {
   const { collections, setCollections, selectedRequest, setSelectRequest } =
@@ -35,10 +36,12 @@ export const CollectionScreen: React.FC = ({}) => {
   };
   return (
     <>
-      <CollectionSidebar
-        collections={collections}
-        handleRequestChange={handleRequestChange}
-      />
+      <ScrollArea h={"100vh"}>
+        <CollectionSidebar
+          collections={collections}
+          handleRequestChange={handleRequestChange}
+        />
+      </ScrollArea>
 
       {selectedRequest && (
         <PlaygroundContainer>
@@ -54,8 +57,5 @@ const PlaygroundContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  width: 100%;
-  padding-left: 16rem;
-  padding-right: 1rem;
   padding-top: 1rem;
 `;
