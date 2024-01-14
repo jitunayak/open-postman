@@ -161,7 +161,7 @@ export interface IStore {
   setEnvs: (data: IEnv[]) => void;
   collections: ICollectionList[];
   setCollections: (data: ICollectionList[]) => void;
-  selectedRequest: ICollectionRequest;
+  selectedRequest?: ICollectionRequest;
   setSelectRequest: (request: ICollectionRequest) => void;
   currentEnv: IEnv | undefined;
   setCurrentEnv: (env?: IEnv) => void;

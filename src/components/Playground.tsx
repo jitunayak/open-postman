@@ -35,7 +35,14 @@ type IProps = {
   saveRequest: (item: ICollectionRequest) => void;
 };
 const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
-  const { envs, currentEnv, setCurrentEnv } = useStore();
+  const {
+    envs,
+    currentEnv,
+    setCurrentEnv,
+    collections,
+    setCollections,
+    setSelectRequest,
+  } = useStore();
 
   const [response, setResponse] = useState<AxiosResponse>();
   const [axiosTimer, setAxiosTimer] = useState("");
@@ -134,7 +141,24 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
     saveRequest(form.values);
   };
 
-  const handleDeletionOfRequest = () => {};
+  const handleDeletionOfRequest = () => {
+    const collectionIndex = collections.findIndex(
+      (collection) => collection.id === request.parentId
+    );
+    const colToUpdateIndex = collections[collectionIndex].requests.findIndex(
+      (req) => req.id === request.id
+    );
+    const colUpdate = {
+      ...collections[collectionIndex],
+      ...collections[collectionIndex].requests.splice(colToUpdateIndex, 1),
+    };
+    const cols = collections.map((col) =>
+      col.id === request.parentId ? colUpdate : col
+    );
+    setSelectRequest(collections[collectionIndex].requests[0]);
+    setCollections(cols);
+  };
+
   useEffect(() => {
     form.setValues(request);
   }, [request]);

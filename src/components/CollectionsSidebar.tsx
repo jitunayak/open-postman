@@ -77,7 +77,7 @@ export const CollectionSidebar: React.FC<IProps> = ({
           <div>
             {collection.requests.map((item) => (
               <Request
-                $active={selectedRequest.id === item.id}
+                $active={selectedRequest?.id === item.id}
                 onClick={() => {
                   setSelectRequest(item);
                   handleRequestChange(item);
