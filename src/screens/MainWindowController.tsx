@@ -39,28 +39,28 @@ export const MainWindowController: React.FC = () => {
           label="Collections"
           tabSelectedIndex={tabSelectedIndex}
           setTabSelectedIndex={setTabSelectedIndex}
-          icon={<IconVersions size={25} stroke={1.6} />}
+          icon={<IconVersions size={20} stroke={1.6} />}
         ></TabItem>
         <TabItem
           id={1}
           label="Environment"
           tabSelectedIndex={tabSelectedIndex}
           setTabSelectedIndex={setTabSelectedIndex}
-          icon={<IconBookmark size={25} stroke={1.6} />}
+          icon={<IconBookmark size={20} stroke={1.6} />}
         ></TabItem>
         <TabItem
           id={2}
           label="History"
           tabSelectedIndex={tabSelectedIndex}
           setTabSelectedIndex={setTabSelectedIndex}
-          icon={<IconHistory size={25} stroke={1.6} />}
+          icon={<IconHistory size={20} stroke={1.6} />}
         ></TabItem>
         <TabItem
           id={3}
           label="Settings"
           tabSelectedIndex={tabSelectedIndex}
           setTabSelectedIndex={setTabSelectedIndex}
-          icon={<IconSettings size={25} stroke={1.6} />}
+          icon={<IconSettings size={20} stroke={1.6} />}
         ></TabItem>
       </SideTab>
 

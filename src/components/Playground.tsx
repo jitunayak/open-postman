@@ -20,10 +20,10 @@ import { IconDeviceFloppy, IconSend2, IconTrash } from "@tabler/icons-react";
 import aws4Interceptor from "aws4-axios";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
-import React, { memo, useEffect, useState } from "react";
+import React, { forwardRef, memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useStore } from "../store/useStore";
-import { getStatusColor } from "../utils/RequestUtils";
+import { getRequestMethodColor, getStatusColor } from "../utils/RequestUtils";
 import { URLBar } from "./URLBar";
 import {
   AuthenticationTypes,
@@ -173,6 +173,19 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
 
   useHotkeys([["mod+s", () => handleRequestSave()]]);
 
+  const SelectItem = forwardRef<HTMLDivElement, { label: string }>(
+    ({ label, ...others }: { label: string }, ref) => (
+      <div ref={ref} {...others}>
+        <Text
+          size={"xs"}
+          style={{ cursor: "pointer" }}
+          color={getRequestMethodColor(label)}
+        >
+          {label}
+        </Text>
+      </div>
+    )
+  );
   return (
     <Container>
       <Stack>
@@ -221,8 +234,22 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
               <Select
                 size="sm"
                 w={"8rem"}
+                variant="filled"
+                itemComponent={SelectItem}
                 placeholder="METHOD"
+                color="red"
                 data={["GET", "POST", "PUT", "PATCH", "DELETE"]}
+                styles={(theme) => ({
+                  item: {
+                    "&[data-selected]": {
+                      "&, &:hover": {
+                        backgroundColor: theme.colors.dark[5],
+                      },
+                    },
+
+                    "&[data-hovered]": {},
+                  },
+                })}
                 {...form.getInputProps("method")}
               />
             </Grid.Col>

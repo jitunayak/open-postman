@@ -70,11 +70,11 @@ export const EnvironmentScreen: React.FC = () => {
                 Add +
               </Button>
               <Button
+                size="xs"
                 variant="filled"
                 disabled={
                   JSON.stringify(envForm.values.envs) === JSON.stringify(envs)
                 }
-                size="xs"
                 leftIcon={<IconDeviceFloppy size={16} />}
                 onClick={() => {
                   envForm.validate();
@@ -84,7 +84,7 @@ export const EnvironmentScreen: React.FC = () => {
                 Save
               </Button>
             </Group>
-            <Divider py="sm" w={"60%"} />
+            <Divider py="sm" w={"70%"} />
             {envForm.values.envs[selectedEnv].list.map((value, index) => (
               <Group w={"100%"}>
                 <Checkbox
@@ -95,6 +95,7 @@ export const EnvironmentScreen: React.FC = () => {
                   )}
                 />
                 <TextInput
+                  size="xs"
                   placeholder="Variable"
                   required
                   withAsterisk
@@ -103,6 +104,7 @@ export const EnvironmentScreen: React.FC = () => {
                   )}
                 />
                 <Select
+                  size="xs"
                   w={"10rem"}
                   data={[
                     { value: "TEXT", label: "Text" },
@@ -115,6 +117,7 @@ export const EnvironmentScreen: React.FC = () => {
                 {value.type.toString() === "SECRET" ? (
                   <PasswordInput
                     w={"40%"}
+                    size="xs"
                     placeholder="Value"
                     {...envForm.getInputProps(
                       `envs.${selectedEnv}.list.${index}.value`
@@ -123,6 +126,7 @@ export const EnvironmentScreen: React.FC = () => {
                 ) : (
                   <TextInput
                     w={"40%"}
+                    size="xs"
                     placeholder="Value"
                     {...envForm.getInputProps(
                       `envs.${selectedEnv}.list.${index}.value`
@@ -151,10 +155,9 @@ const Container = styled.div`
 
 const SideBarItem = styled.div<{ $active: boolean }>`
   cursor: pointer;
-  padding: 0.6rem 4rem;
+  padding: 0.6rem 1rem;
   font-size: 10pt;
-  border-radius: ${DEFAULT_THEME.radius.xs};
-  border-left: ${(props) =>
+  border-right: ${(props) =>
     props.$active
       ? `2px solid ${DEFAULT_THEME.colors.orange[6]}`
       : "2px solid transparent"};
