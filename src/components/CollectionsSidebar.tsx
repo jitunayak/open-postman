@@ -32,7 +32,7 @@ export const CollectionSidebar: React.FC<IProps> = ({
     const newRequest: ICollectionRequest = {
       id,
       bodyPayload: "",
-      label: "New Request" + id,
+      label: "New Request",
       method: "GET",
       parentId: collectionId,
       url: "",

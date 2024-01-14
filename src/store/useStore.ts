@@ -39,8 +39,14 @@ const initialEnv: IEnv[] = [
     label: "UAT",
     list: [
       {
-        key: "",
-        value: "",
+        key: "BASE_URL",
+        value: "https://tt1s9nm.execute-api.us-east-1.amazonaws.com",
+        isChecked: true,
+        type: "TEXT",
+      },
+      {
+        key: "ID",
+        value: "801",
         isChecked: true,
         type: "TEXT",
       },
@@ -180,7 +186,7 @@ export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
   setSelectRequest: (request: ICollectionRequest) => {
     set({ selectedRequest: request });
   },
-  currentEnv: undefined,
+  currentEnv: initialEnv[0],
   setCurrentEnv: (env?: IEnv) => {
     set({ currentEnv: env });
   },

@@ -420,7 +420,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           )}
         </Group>
         <ScrollArea h={500}>
-          <Prism language="json">
+          <Prism language="json" noCopy>
             {isResponseLoading
               ? "fetching..."
               : !!response?.data
@@ -457,7 +457,7 @@ const Container = styled.div`
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`
-  width: 102%;
+  width: 103%;
 `;
 
 export const Playground = memo(Playground1);
