@@ -422,7 +422,7 @@ const Container = styled.div`
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`
-  width: 100%;
+  width: 103%;
   /* background-color: red; */
   /* display: flex;
   justify-content: start;

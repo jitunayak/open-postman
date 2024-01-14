@@ -48,8 +48,8 @@ export const EnvironmentScreen: React.FC = () => {
   return (
     <form>
       <Container>
-        <Group align="flex-start">
-          <Stack>
+        <Group align="flex-start" w="100%">
+          <Stack w="2%">
             <Button variant="subtle" size="xs">
               Add Env
             </Button>
@@ -64,7 +64,7 @@ export const EnvironmentScreen: React.FC = () => {
             ))}
           </Stack>
           <Divider orientation="vertical" />
-          <Stack>
+          <Stack w="18%">
             <Group mb="sm" align="center">
               <Button variant="outline" size="xs" onClick={() => addEnvItem()}>
                 Add +
@@ -84,9 +84,9 @@ export const EnvironmentScreen: React.FC = () => {
                 Save
               </Button>
             </Group>
-            <Divider py="sm" w={"100%"} />
+            <Divider py="sm" w={"60%"} />
             {envForm.values.envs[selectedEnv].list.map((value, index) => (
-              <Group>
+              <Group w={"100%"}>
                 <Checkbox
                   size={"xs"}
                   {...envForm.getInputProps(
@@ -114,7 +114,7 @@ export const EnvironmentScreen: React.FC = () => {
                 />
                 {value.type.toString() === "SECRET" ? (
                   <PasswordInput
-                    w={"15rem"}
+                    w={"40%"}
                     placeholder="Value"
                     {...envForm.getInputProps(
                       `envs.${selectedEnv}.list.${index}.value`
@@ -122,7 +122,7 @@ export const EnvironmentScreen: React.FC = () => {
                   />
                 ) : (
                   <TextInput
-                    w={"15rem"}
+                    w={"40%"}
                     placeholder="Value"
                     {...envForm.getInputProps(
                       `envs.${selectedEnv}.list.${index}.value`
@@ -145,7 +145,6 @@ export const EnvironmentScreen: React.FC = () => {
 };
 
 const Container = styled.div`
-  margin-left: 7rem;
   margin-top: 2rem;
   width: 1000vh;
 `;
