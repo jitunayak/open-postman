@@ -164,6 +164,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
   };
 
   useEffect(() => {
+    setResponse(undefined);
     form.setValues(request);
   }, [request]);
 
