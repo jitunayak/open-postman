@@ -1,14 +1,18 @@
 # Open Postman
 
-### Stage1:
+### Stage3:
 
-![Screeenshot2](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap2.png)
-![Screeenshot1](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap1.png)
+![Screeenshot5](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap5.png)
 
 ### Stage2:
 
 ![Screeenshot3](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap3.png)
 ![Screeenshot4](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap4.png)
+
+### Stage1:
+
+![Screeenshot2](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap2.png)
+![Screeenshot1](https://github.com/jitunayak/open-postman/blob/main/.snaps/snap1.png)
 
 ## Recommended IDE Setup
 
