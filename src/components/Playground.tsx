@@ -30,6 +30,7 @@ import {
   ICollectionRequest,
 } from "../types/ICollectionRequest";
 import { useHotkeys } from "@mantine/hooks";
+import { Prism } from "@mantine/prism";
 
 type IProps = {
   request: ICollectionRequest;
@@ -201,7 +202,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
               title="Delete current request"
               onClick={() => handleDeletionOfRequest()}
             >
-              <IconTrash size={16} color={DEFAULT_THEME.colors.red[4]} />
+              <IconTrash size={14} color={DEFAULT_THEME.colors.red[4]} />
             </ActionIcon>
             <Button
               variant="outline"
@@ -418,7 +419,14 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           )}
         </Group>
         <ScrollArea h={500}>
-          <Textarea
+          <Prism language="json">
+            {isResponseLoading
+              ? "fetching..."
+              : !!response?.data
+              ? JSON.stringify(response?.data, undefined, 4)
+              : "Empty Response"}
+          </Prism>
+          {/* <Textarea
             minRows={20}
             autosize
             ta={"start"}
@@ -431,7 +439,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
                 ? JSON.stringify(response?.data, undefined, 8)
                 : "Empty Response"
             }
-          />
+          /> */}
         </ScrollArea>
       </Stack>
     </Container>
@@ -440,7 +448,6 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
 
 const Container = styled.div`
   margin-left: 1rem;
-  /* position: fixed; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -449,13 +456,7 @@ const Container = styled.div`
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`
-  width: 103%;
-  /* background-color: red; */
-  /* display: flex;
-  justify-content: start;
-  flex-direction: row;
-  flex: 1;
-  flex-wrap: wrap; */
+  width: 102%;
 `;
 
 export const Playground = memo(Playground1);
