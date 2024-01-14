@@ -8,6 +8,7 @@ import {
   ICollectionRequest,
 } from "../types/ICollectionRequest";
 import { getRequestMethodColor } from "../utils/RequestUtils";
+import { useHotkeys } from "@mantine/hooks";
 
 type IProps = {
   collections: ICollectionList[];
@@ -56,6 +57,58 @@ export const CollectionSidebar: React.FC<IProps> = ({
 
     setSelectRequest(newRequest);
   };
+  const duplicateRequest = (collectionId: string) => {
+    const collection = collections.find((c) => c.id === collectionId);
+    if (!collection || !selectedRequest) {
+      throw new Error("Collection or request not found");
+    }
+    const collectionIndex = collections.findIndex((c) => c.id === collectionId);
+    const id = (Math.random().toString(36) + "000000000000000000000").slice(
+      2,
+      16
+    );
+    const newCollections = collections.map((obj, i) => {
+      if (i === collectionIndex) {
+        return {
+          ...collection,
+          requests: collection.requests
+            .slice(
+              0,
+              collection.requests.findIndex(
+                (r) => r.id === selectedRequest.id
+              ) + 1
+            )
+            .concat({
+              ...selectedRequest,
+              label: selectedRequest.label + " copy",
+              id,
+            })
+            .concat(
+              collection.requests.slice(
+                collection.requests.findIndex(
+                  (r) => r.id === selectedRequest.id
+                ) + 1
+              )
+            ),
+        };
+      } else {
+        return obj;
+      }
+    });
+
+    setCollections(newCollections);
+    setSelectRequest({ ...selectedRequest, id });
+  };
+
+  useHotkeys([
+    [
+      "mod+d",
+      () =>
+        selectedRequest?.parentId
+          ? duplicateRequest(selectedRequest.parentId)
+          : null,
+    ],
+  ]);
 
   return (
     <SidebarContainer>

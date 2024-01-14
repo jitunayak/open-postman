@@ -29,6 +29,7 @@ import {
   AuthenticationTypes,
   ICollectionRequest,
 } from "../types/ICollectionRequest";
+import { useHotkeys } from "@mantine/hooks";
 
 type IProps = {
   request: ICollectionRequest;
@@ -47,6 +48,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
   const [response, setResponse] = useState<AxiosResponse>();
   const [axiosTimer, setAxiosTimer] = useState("");
   const [isResponseLoading, setIsResponseLoading] = useState(false);
+  const [saveButtonStatus, setSaveButtonStatus] = useState("Save");
 
   const awsForm = useForm({
     initialValues: {
@@ -138,6 +140,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
   };
 
   const handleRequestSave = () => {
+    setSaveButtonStatus("Saved");
     saveRequest(form.values);
   };
 
@@ -163,6 +166,13 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
     form.setValues(request);
   }, [request]);
 
+  useEffect(() => {
+    if (saveButtonStatus === "Save") return;
+    setSaveButtonStatus("Save");
+  }, [form.values]);
+
+  useHotkeys([["mod+s", () => handleRequestSave()]]);
+
   return (
     <Container>
       <Stack>
@@ -187,7 +197,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
               leftIcon={<IconDeviceFloppy size={14} />}
               onClick={() => handleRequestSave()}
             >
-              Save
+              {saveButtonStatus}
             </Button>
             <Select
               clearable
