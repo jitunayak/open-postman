@@ -31,6 +31,7 @@ import {
 } from "../types/ICollectionRequest";
 import { useHotkeys } from "@mantine/hooks";
 import { Prism } from "@mantine/prism";
+import { QueryParamsInput } from "./QueryParams";
 
 type IProps = {
   request: ICollectionRequest;
@@ -380,6 +381,13 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
             </Grid>
           </Tabs.Panel>
 
+          <Tabs.Panel value="params">
+            <QueryParamsInput
+              queryParams={[{ key: "id", value: "1111", isActive: true }]}
+              url={form.values.url + "?"}
+              updateUrl={(e) => form.setFieldValue("url", e)}
+            />
+          </Tabs.Panel>
           <Tabs.Panel value="body" pt="xs">
             <Textarea
               minRows={10}
