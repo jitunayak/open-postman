@@ -9,6 +9,7 @@ import React, { ReactElement, memo, useState } from "react";
 import styled from "styled-components";
 import { CollectionScreen } from "./CollectionScreen";
 import { EnvironmentScreen } from "./EnvironmentScreen";
+import { HistoryScreen } from "./HistoryScreen";
 
 function TabItem(props: {
   tabSelectedIndex: number;
@@ -66,7 +67,7 @@ export const MainWindowController: React.FC = () => {
 
       {tabSelectedIndex === 0 && <CollectionScreen />}
       {tabSelectedIndex === 1 && <EnvironmentScreen />}
-      {tabSelectedIndex === 2 && <Text>History Screen</Text>}
+      {tabSelectedIndex === 2 && <HistoryScreen />}
       {tabSelectedIndex === 3 && <Text>Settings Screen</Text>}
     </Container>
   );

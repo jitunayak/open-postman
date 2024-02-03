@@ -15,6 +15,13 @@ interface IEnv {
     type: "TEXT" | "SECRET";
   }[];
 }
+
+type IConsole = {
+  type: "request" | "response";
+  data: string;
+  timeStamp?: string;
+};
+
 const initialEnv: IEnv[] = [
   {
     id: "1",
@@ -177,6 +184,9 @@ export interface IStore {
   setSelectRequest: (request: ICollectionRequest) => void;
   currentEnv: IEnv | undefined;
   setCurrentEnv: (env?: IEnv) => void;
+  consoleLogs: IConsole[];
+  setConsoleLogs: (data: IConsole[]) => void;
+  appendConsoleLog: (data: IConsole) => void;
 }
 
 export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
@@ -195,5 +205,17 @@ export const useStore: UseBoundStore<StoreApi<IStore>> = create((set) => ({
   currentEnv: initialEnv[0],
   setCurrentEnv: (env?: IEnv) => {
     set({ currentEnv: env });
+  },
+  consoleLogs: [],
+  setConsoleLogs(data) {
+    set({ consoleLogs: data });
+  },
+  appendConsoleLog(data) {
+    set((state) => ({
+      consoleLogs: [
+        ...state.consoleLogs,
+        { ...data, timeStamp: new Date().toISOString() },
+      ],
+    }));
   },
 }));

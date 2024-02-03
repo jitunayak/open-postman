@@ -47,6 +47,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
     collections,
     setCollections,
     setSelectRequest,
+    appendConsoleLog,
   } = useStore();
 
   const [response, setResponse] = useState<AxiosResponse>();
@@ -127,11 +128,9 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
     curlirize(client, (result, err) => {
       const { command } = result;
       if (err) {
-        // use your logger here
-        console.log(err);
+        appendConsoleLog({ type: "request", data: JSON.stringify(err) });
       } else {
-        // use your logger here
-        console.log(command);
+        appendConsoleLog({ type: "request", data: JSON.stringify(command) });
       }
     });
 
@@ -141,25 +140,31 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           const result = await client.get(actualUrl, {
             headers: headersObject,
           });
+          appendConsoleLog({ type: "response", data: JSON.stringify(result) });
           setResponse(result);
-          // console.log(result);
           break;
         }
         case "POST": {
           const result = await client.post(actualUrl, form.values.bodyPayload, {
             headers: headersObject,
           });
+          appendConsoleLog({
+            type: "response",
+            data: JSON.stringify(result.data),
+          });
           setResponse(result);
-          console.log(result.data);
           break;
         }
       }
       axiosTimerFunc(startTime);
-    } catch (err) {
-      console.log(err);
-      const error = err as AxiosError;
+    } catch (error) {
+      console.log(error);
+      appendConsoleLog({
+        type: "response",
+        data: JSON.stringify(error),
+      });
       axiosTimerFunc(startTime);
-      setResponse(error.response);
+      // setResponse(error);
     } finally {
       setIsResponseLoading(false);
     }
