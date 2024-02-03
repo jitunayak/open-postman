@@ -67,6 +67,7 @@ const initialCollection: ICollectionList[] = [
         method: "GET",
         bodyPayload: "",
         authorization: AuthenticationTypes.No_Auth,
+        headers: [],
         authorizationDetails: {
           name: AuthenticationTypes.No_Auth,
         },
@@ -77,6 +78,7 @@ const initialCollection: ICollectionList[] = [
         label: "create Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "POST",
+        headers: [],
         authorization: AuthenticationTypes.No_Auth,
         authorizationDetails: {
           name: AuthenticationTypes.No_Auth,
@@ -99,6 +101,7 @@ const initialCollection: ICollectionList[] = [
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "GET",
         bodyPayload: "",
+        headers: [],
         authorization: AuthenticationTypes.No_Auth,
         authorizationDetails: {
           name: AuthenticationTypes.No_Auth,
@@ -116,6 +119,7 @@ const initialCollection: ICollectionList[] = [
         label: "create Todos",
         url: "https://jsonplaceholder.typicode.com/todos",
         method: "POST",
+        headers: [],
         authorization: AuthenticationTypes.No_Auth,
         authorizationDetails: {
           name: AuthenticationTypes.No_Auth,
@@ -138,6 +142,7 @@ const initialCollection: ICollectionList[] = [
         url: "https://jf5vveqi48.execute-api.us-east-1.amazonaws.com",
         method: "GET",
         bodyPayload: "",
+        headers: [],
         authorization: AuthenticationTypes.No_Auth,
         authorizationDetails: {
           name: AuthenticationTypes.No_Auth,
@@ -150,6 +155,7 @@ const initialCollection: ICollectionList[] = [
         url: "{{BASE_URL}}/todo/{{ID}}",
         method: "GET",
         bodyPayload: "",
+        headers: [],
         authorization: AuthenticationTypes.AWS_Signature,
         authorizationDetails: {
           name: AuthenticationTypes.AWS_Signature,

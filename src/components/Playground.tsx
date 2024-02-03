@@ -32,6 +32,8 @@ import {
 import { useHotkeys } from "@mantine/hooks";
 import { Prism } from "@mantine/prism";
 import { QueryParamsInput } from "./QueryParams";
+import { HeadersEditor } from "./HeadersEditor";
+import curlirize from "axios-curlirize";
 
 type IProps = {
   request: ICollectionRequest;
@@ -115,16 +117,38 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
       client.interceptors.request.use(interceptor);
     }
 
+    const headersObject = form.values.headers.reduce((obj, item) => {
+      return {
+        ...obj,
+        [item.key]: item.value,
+      };
+    }, {});
+
+    curlirize(client, (result, err) => {
+      const { command } = result;
+      if (err) {
+        // use your logger here
+        console.log(err);
+      } else {
+        // use your logger here
+        console.log(command);
+      }
+    });
+
     try {
       switch (form.values.method) {
         case "GET": {
-          const result = await client.get(actualUrl);
+          const result = await client.get(actualUrl, {
+            headers: headersObject,
+          });
           setResponse(result);
-          console.log(result);
+          // console.log(result);
           break;
         }
         case "POST": {
-          const result = await client.post(actualUrl, form.values.bodyPayload);
+          const result = await client.post(actualUrl, form.values.bodyPayload, {
+            headers: headersObject,
+          });
           setResponse(result);
           console.log(result.data);
           break;
@@ -386,6 +410,13 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
               queryParams={[{ key: "id", value: "1111", isActive: true }]}
               url={form.values.url + "?"}
               updateUrl={(e) => form.setFieldValue("url", e)}
+            />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="headers">
+            <HeadersEditor
+              headers={[]}
+              updateHeaders={(e) => form.setFieldValue("headers", e)}
             />
           </Tabs.Panel>
           <Tabs.Panel value="body" pt="xs">

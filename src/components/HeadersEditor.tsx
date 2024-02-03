@@ -11,14 +11,13 @@ import { IconTrash } from "@tabler/icons-react";
 import React, { useEffect } from "react";
 
 interface IProps {
-  queryParams: Array<{ key: string; value: string; isActive: boolean }>;
-  updateUrl: (e: string) => void;
-  url: string;
+  headers: Array<{ key: string; value: string; isActive: boolean }>;
+  updateHeaders: (headers: Array<{ key: string; value: string }>) => void;
 }
 
-export const QueryParamsInput: React.FC<IProps> = (props) => {
+export const HeadersEditor: React.FC<IProps> = (props) => {
   const form = useForm({
-    initialValues: { params: props.queryParams },
+    initialValues: { params: props.headers },
     validateInputOnBlur: [`params.${FORM_INDEX}.key`],
     validate: {
       params: (value) =>
@@ -28,34 +27,8 @@ export const QueryParamsInput: React.FC<IProps> = (props) => {
     },
   });
 
-  const buildQueryUrl = () => {
-    let queryUrl = "";
-    form.values.params.forEach((param, index) => {
-      queryUrl =
-        param.isActive && param.key.length > 0
-          ? `${queryUrl}${param.key}=${param.value}`
-          : queryUrl;
-
-      if (
-        index !== form.values.params.filter((p) => p.isActive).length - 1 &&
-        param.isActive &&
-        param.key.length > 0
-      ) {
-        queryUrl += "&";
-      }
-    });
-    return queryUrl;
-  };
-
   useEffect(() => {
-    form;
-    const queryUrl = buildQueryUrl();
-    console.log(form.values.params);
-    console.log(queryUrl);
-    props.updateUrl(
-      props.url.split("?").at(0) + (queryUrl.length > 0 ? "?" + queryUrl : "")
-    );
-    console.log(buildQueryUrl());
+    props.updateHeaders(form.values.params);
   }, [form.values]);
 
   return (
@@ -114,7 +87,7 @@ export const QueryParamsInput: React.FC<IProps> = (props) => {
           form.insertListItem("params", { key: "", value: "", isActive: true })
         }
       >
-        Add Query Param
+        Add Header
       </Button>
     </Paper>
   );

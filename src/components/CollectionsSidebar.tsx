@@ -36,6 +36,7 @@ export const CollectionSidebar: React.FC<IProps> = ({
       method: "GET",
       parentId: collectionId,
       url: "",
+      headers: [],
       authorization: AuthenticationTypes.Inherit,
       authorizationDetails: {
         name: AuthenticationTypes.Inherit,

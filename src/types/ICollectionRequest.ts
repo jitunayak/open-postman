@@ -31,6 +31,7 @@ export interface ICollectionRequest {
   bodyPayload: string;
   authorization: AuthenticationTypes;
   authorizationDetails: AuthenticationDetails | InheritType;
+  headers: { [key: string]: string }[];
 }
 
 export interface ICollectionList {
