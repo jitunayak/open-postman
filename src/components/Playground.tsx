@@ -11,29 +11,30 @@ import {
   Table,
   Tabs,
   Text,
-  TextInput,
   Textarea,
+  TextInput,
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useHotkeys } from "@mantine/hooks";
+import { Prism } from "@mantine/prism";
 import { IconDeviceFloppy, IconSend2, IconTrash } from "@tabler/icons-react";
 import aws4Interceptor from "aws4-axios";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
+import curlirize from "axios-curlirize";
 import axiosTauriApiAdapter from "axios-tauri-api-adapter";
 import React, { forwardRef, memo, useEffect, useState } from "react";
 import styled from "styled-components";
+
 import { useStore } from "../store/useStore";
-import { getRequestMethodColor, getStatusColor } from "../utils/RequestUtils";
-import { URLBar } from "./URLBar";
 import {
   AuthenticationTypes,
   ICollectionRequest,
 } from "../types/ICollectionRequest";
-import { useHotkeys } from "@mantine/hooks";
-import { Prism } from "@mantine/prism";
-import { QueryParamsInput } from "./QueryParams";
+import { getRequestMethodColor, getStatusColor } from "../utils/RequestUtils";
 import { HeadersEditor } from "./HeadersEditor";
-import curlirize from "axios-curlirize";
+import { QueryParamsInput } from "./QueryParams";
+import { URLBar } from "./URLBar";
 
 type IProps = {
   request: ICollectionRequest;

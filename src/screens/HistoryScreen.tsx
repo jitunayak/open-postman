@@ -1,28 +1,24 @@
-import { useStore } from "../store/useStore";
 import {
   Badge,
   Button,
-  Container,
   DEFAULT_THEME,
   Divider,
   Group,
   NavLink,
   ScrollArea,
   Stack,
-  Text,
 } from "@mantine/core";
-import { getRequestMethodColor } from "../utils/RequestUtils";
-import { useEffect, useRef } from "react";
-import { JSONTree } from "react-json-tree";
 import {
-  IconGitPullRequest,
-  IconHttpConnect,
   IconHttpDelete,
+  IconHttpGet,
   IconHttpPatch,
   IconHttpPost,
   IconHttpPut,
 } from "@tabler/icons-react";
-import { IconHttpGet } from "@tabler/icons-react";
+import { useEffect, useRef } from "react";
+import { JSONTree } from "react-json-tree";
+
+import { useStore } from "../store/useStore";
 
 export const HistoryScreen = () => {
   const { consoleLogs } = useStore();

@@ -1,10 +1,11 @@
+import { ScrollArea } from "@mantine/core";
 import React from "react";
 import styled from "styled-components";
+
 import { CollectionSidebar } from "../components/CollectionsSidebar";
 import { Playground } from "../components/Playground";
 import { useStore } from "../store/useStore";
 import { ICollectionRequest } from "../types/ICollectionRequest";
-import { Grid, ScrollArea } from "@mantine/core";
 
 export const CollectionScreen: React.FC = ({}) => {
   const { collections, setCollections, selectedRequest, setSelectRequest } =

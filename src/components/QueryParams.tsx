@@ -50,12 +50,9 @@ export const QueryParamsInput: React.FC<IProps> = (props) => {
   useEffect(() => {
     form;
     const queryUrl = buildQueryUrl();
-    console.log(form.values.params);
-    console.log(queryUrl);
     props.updateUrl(
       props.url.split("?").at(0) + (queryUrl.length > 0 ? "?" + queryUrl : "")
     );
-    console.log(buildQueryUrl());
   }, [form.values]);
 
   return (
