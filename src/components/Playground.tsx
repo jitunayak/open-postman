@@ -119,12 +119,14 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
       client.interceptors.request.use(interceptor);
     }
 
-    const headersObject = form.values.headers.reduce((obj, item) => {
-      return {
-        ...obj,
-        [item.key]: item.value,
-      };
-    }, {});
+    const headersObject = form.values.headers
+      .filter((header) => header.isActive)
+      .reduce((obj, item) => {
+        return {
+          ...obj,
+          [item.key]: item.value,
+        };
+      }, {});
 
     curlirize(client, (result, err) => {
       const { command } = result;
@@ -415,7 +417,8 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
 
           <Tabs.Panel value="params">
             <QueryParamsInput
-              queryParams={[{ key: "id", value: "1111", isActive: true }]}
+              id={request.id}
+              queryParams={[]}
               url={form.values.url + "?"}
               updateUrl={(e) => form.setFieldValue("url", e)}
             />
@@ -423,7 +426,8 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
 
           <Tabs.Panel value="headers">
             <HeadersEditor
-              headers={[]}
+              id={request.id}
+              headers={request.headers}
               updateHeaders={(e) => form.setFieldValue("headers", e)}
             />
           </Tabs.Panel>
@@ -500,11 +504,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 136vh;
+  width: 96%;
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`
-  width: 103%;
+  width: 100%;
 `;
 
 export const Playground = memo(Playground1);

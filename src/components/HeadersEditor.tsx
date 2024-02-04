@@ -11,8 +11,11 @@ import { IconTrash } from "@tabler/icons-react";
 import React, { useEffect } from "react";
 
 interface IProps {
+  id: string;
   headers: Array<{ key: string; value: string; isActive: boolean }>;
-  updateHeaders: (headers: Array<{ key: string; value: string }>) => void;
+  updateHeaders: (
+    headers: Array<{ key: string; value: string; isActive: boolean }>
+  ) => void;
 }
 
 export const HeadersEditor: React.FC<IProps> = (props) => {
@@ -26,6 +29,10 @@ export const HeadersEditor: React.FC<IProps> = (props) => {
         ),
     },
   });
+
+  useEffect(() => {
+    form.setValues({ params: props.headers });
+  }, [props.id]);
 
   useEffect(() => {
     props.updateHeaders(form.values.params);

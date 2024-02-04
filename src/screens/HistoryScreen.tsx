@@ -56,33 +56,30 @@ export const HistoryScreen = () => {
     base0E: "#ae81ff",
     base0F: "#cc6633",
   };
+
+  const scrollDown = () =>
+    scrollRef.current
+      ? scrollRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        })
+      : null;
+
+  const scrollUp = () => {
+    scrollRef.current
+      ? scrollRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+      : null;
+  };
   return (
     <Stack w="100%" p={"lg"} h={"100vh"}>
       <Group>
-        <Button
-          variant="subtle"
-          onClick={() =>
-            scrollRef.current
-              ? scrollRef.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "end",
-                })
-              : null
-          }
-        >
+        <Button variant="subtle " onClick={() => scrollDown()}>
           Scroll End
         </Button>
-        <Button
-          variant="subtle"
-          onClick={() =>
-            scrollRef.current
-              ? scrollRef.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                })
-              : null
-          }
-        >
+        <Button variant="subtle" onClick={() => scrollUp()}>
           Scroll Top
         </Button>
       </Group>
