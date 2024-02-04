@@ -18,7 +18,7 @@ interface IEnv {
 
 type IConsole = {
   type: "request" | "response";
-  data: string;
+  data: any;
   timeStamp?: string;
 };
 

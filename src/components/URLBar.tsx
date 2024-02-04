@@ -9,7 +9,6 @@ type IProps = {
   setUrl: (url: string) => void;
 };
 export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
-  const x = [];
   const { envs, currentEnv } = useStore();
   const [cursorPosition, setCursorPosition] = useState(0);
   const [showDropDown, setShowDropDown] = useState(false);

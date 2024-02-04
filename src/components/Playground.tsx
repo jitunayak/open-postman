@@ -140,7 +140,10 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           const result = await client.get(actualUrl, {
             headers: headersObject,
           });
-          appendConsoleLog({ type: "response", data: JSON.stringify(result) });
+          appendConsoleLog({
+            type: "response",
+            data: result,
+          });
           setResponse(result);
           break;
         }
@@ -150,7 +153,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           });
           appendConsoleLog({
             type: "response",
-            data: JSON.stringify(result.data),
+            data: result,
           });
           setResponse(result);
           break;
@@ -161,7 +164,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
       console.log(error);
       appendConsoleLog({
         type: "response",
-        data: JSON.stringify(error),
+        data: error,
       });
       axiosTimerFunc(startTime);
       // setResponse(error);
@@ -261,8 +264,8 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
           </Group>
         </Group>
         <Header>
-          <Grid columns={24}>
-            <Grid.Col span={3}>
+          <div style={{ display: "inline-flex", width: "100%" }}>
+            <span>
               <Select
                 size="sm"
                 w={"8rem"}
@@ -284,24 +287,23 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
                 })}
                 {...form.getInputProps("method")}
               />
-            </Grid.Col>
-            <Grid.Col span={18}>
+            </span>
+            <span style={{ width: window.innerWidth - 670 }}>
               <URLBar
                 setUrl={(urlString) => form.setFieldValue("url", urlString)}
                 url={form.values.url}
               />
-            </Grid.Col>
-            <Grid.Col span={3}>
-              <Button
-                size="sm"
-                rightIcon={<IconSend2 size={16} />}
-                loading={isResponseLoading}
-                onClick={() => sendRequestHandler()}
-              >
-                Send
-              </Button>
-            </Grid.Col>
-          </Grid>
+            </span>
+            <Button
+              size="sm"
+              rightIcon={<IconSend2 size={16} />}
+              loading={isResponseLoading}
+              ml={"lg"}
+              onClick={() => sendRequestHandler()}
+            >
+              Send
+            </Button>
+          </div>
         </Header>
         <Tabs defaultValue="authorization" mt={"md"}>
           <Tabs.List>
@@ -497,7 +499,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 116vh;
+  width: 130vh;
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`

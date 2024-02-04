@@ -4,7 +4,7 @@ import { CollectionSidebar } from "../components/CollectionsSidebar";
 import { Playground } from "../components/Playground";
 import { useStore } from "../store/useStore";
 import { ICollectionRequest } from "../types/ICollectionRequest";
-import { ScrollArea } from "@mantine/core";
+import { Grid, ScrollArea } from "@mantine/core";
 
 export const CollectionScreen: React.FC = ({}) => {
   const { collections, setCollections, selectedRequest, setSelectRequest } =
@@ -46,7 +46,6 @@ export const CollectionScreen: React.FC = ({}) => {
           handleRequestChange={handleRequestChange}
         />
       </ScrollArea>
-
       {selectedRequest && (
         <PlaygroundContainer>
           <Playground saveRequest={saveRequest} request={selectedRequest} />
