@@ -289,7 +289,7 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
                 {...form.getInputProps("method")}
               />
             </span>
-            <span style={{ width: window.innerWidth - 670 }}>
+            <span style={{ width: window.innerWidth - 610 }}>
               <URLBar
                 setUrl={(urlString) => form.setFieldValue("url", urlString)}
                 url={form.values.url}
@@ -500,7 +500,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 130vh;
+  width: 136vh;
   background-color: ${DEFAULT_THEME.colors.dark[7]};
 `;
 const Header = styled.div`

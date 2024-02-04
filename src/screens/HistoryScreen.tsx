@@ -30,6 +30,12 @@ export const HistoryScreen = () => {
     }
   }, [consoleLogs]);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, []);
+
   const theme = {
     scheme: "custom",
     author: "Jitu Nayak",
