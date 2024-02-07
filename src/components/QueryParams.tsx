@@ -9,14 +9,19 @@ import {
 import { FORM_INDEX, useForm } from "@mantine/form";
 import { IconTrash } from "@tabler/icons-react";
 import React, { useEffect } from "react";
+import { useStore } from "../store/useStore";
 
+type IQueryParam = Array<{ key: string; value: string; isActive: boolean }>;
 interface IProps {
-  queryParams: Array<{ key: string; value: string; isActive: boolean }>;
+  queryParams: IQueryParam;
   updateUrl: (e: string) => void;
   url: string;
+  id: string;
 }
 
 export const QueryParamsInput: React.FC<IProps> = (props) => {
+  const { currentEnv } = useStore();
+
   const form = useForm({
     initialValues: { params: props.queryParams },
     validateInputOnBlur: [`params.${FORM_INDEX}.key`],
@@ -46,14 +51,37 @@ export const QueryParamsInput: React.FC<IProps> = (props) => {
     });
     return queryUrl;
   };
+  const getFinalUrlFromEnvironment = (url: string) => {
+    currentEnv?.list.forEach(
+      (env) => (url = url.replaceAll(`{{${env.key}}}`, env.value))
+    );
+    return url;
+  };
 
   useEffect(() => {
-    form;
+    const urlOb = new URL(getFinalUrlFromEnvironment(props.url));
+    const params = urlOb.searchParams;
+    console.log(params);
+
+    const queryParamsFromUrl: IQueryParam = [];
+    params.forEach((value, key) => {
+      queryParamsFromUrl.push({
+        isActive: true,
+        key: key,
+        value: value,
+      });
+    });
+
+    console.log(queryParamsFromUrl);
+    // form.setValues({ params: queryParamsFromUrl });
+  }, [props.id]);
+
+  useEffect(() => {
     const queryUrl = buildQueryUrl();
     props.updateUrl(
       props.url.split("?").at(0) + (queryUrl.length > 0 ? "?" + queryUrl : "")
     );
-  }, [form.values]);
+  }, [form.values, props.id]);
 
   return (
     <Paper p="lg">

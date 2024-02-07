@@ -61,5 +61,6 @@ const PlaygroundContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+
   padding-top: 1rem;
 `;

@@ -1,12 +1,13 @@
-import { Button, DEFAULT_THEME, Divider, Text } from "@mantine/core";
+import { DEFAULT_THEME, Text } from "@mantine/core";
 import {
   IconBookmark,
   IconHistory,
   IconSettings,
   IconVersions,
 } from "@tabler/icons-react";
-import React, { ReactElement, memo, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import styled from "styled-components";
+
 import { CollectionScreen } from "./CollectionScreen";
 import { EnvironmentScreen } from "./EnvironmentScreen";
 import { HistoryScreen } from "./HistoryScreen";

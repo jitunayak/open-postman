@@ -40,7 +40,7 @@ type IProps = {
   request: ICollectionRequest;
   saveRequest: (item: ICollectionRequest) => void;
 };
-const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
+export const Playground: React.FC<IProps> = ({ saveRequest, request }) => {
   const {
     envs,
     currentEnv,
@@ -478,20 +478,6 @@ const Playground1: React.FC<IProps> = ({ saveRequest, request }) => {
               ? JSON.stringify(response?.data, undefined, 4)
               : "Empty Response"}
           </Prism>
-          {/* <Textarea
-            minRows={20}
-            autosize
-            ta={"start"}
-            contentEditable={false}
-            size="sm"
-            value={
-              isResponseLoading
-                ? "fetching..."
-                : !!response?.data
-                ? JSON.stringify(response?.data, undefined, 8)
-                : "Empty Response"
-            }
-          /> */}
         </ScrollArea>
       </Stack>
     </Container>
@@ -510,5 +496,3 @@ const Container = styled.div`
 const Header = styled.div`
   width: 100%;
 `;
-
-export const Playground = memo(Playground1);
