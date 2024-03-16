@@ -82,7 +82,7 @@ const Container = styled.span`
 const SideTab = styled.div`
   height: 100vh;
   width: max-content;
-  background-color: ${DEFAULT_THEME.colors.dark[8]};
+  background-color: ${DEFAULT_THEME.colors.dark[9]};
 `;
 const Tab = styled.span<{ $active: boolean }>`
   display: flex;

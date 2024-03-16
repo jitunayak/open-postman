@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Button,
   Checkbox,
+  DEFAULT_THEME,
   Input,
   Paper,
   Table,
@@ -60,6 +61,7 @@ export const QueryParamsInput: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     const urlOb = new URL(getFinalUrlFromEnvironment(props.url));
+    console.log(getFinalUrlFromEnvironment(props.url));
     const params = urlOb.searchParams;
     console.log(params);
 
@@ -84,7 +86,7 @@ export const QueryParamsInput: React.FC<IProps> = (props) => {
   }, [form.values, props.id]);
 
   return (
-    <Paper p="lg">
+    <Paper p="lg" bg={DEFAULT_THEME.colors.dark[8]}>
       <Table withBorder withColumnBorders>
         <thead>
           <tr>

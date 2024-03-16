@@ -1,4 +1,4 @@
-import { ScrollArea } from "@mantine/core";
+import { DEFAULT_THEME, ScrollArea } from "@mantine/core";
 import React from "react";
 import styled from "styled-components";
 
@@ -61,6 +61,6 @@ const PlaygroundContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-
   padding-top: 1rem;
+  background-color: ${DEFAULT_THEME.colors.dark[8]};
 `;

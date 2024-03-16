@@ -9,7 +9,34 @@ function App() {
     <MantineProvider
       withGlobalStyles
       withNormalizeCSS
-      theme={{ colorScheme: "dark", primaryColor: "orange" }}
+      theme={{
+        colorScheme: "dark",
+        primaryColor: "orange",
+        components: {
+          TextInput: {
+            styles: (theme) => ({
+              input: {
+                backgroundColor: theme.colors.dark[7],
+                borderColor: theme.colors.dark[6],
+              },
+            }),
+          },
+          Textarea: {
+            styles: (theme) => ({
+              input: {
+                backgroundColor: theme.colors.dark[7],
+                borderColor: theme.colors.dark[6],
+              },
+            }),
+          },
+          Select: {
+            styles: (theme) => ({
+              input: { backgroundColor: theme.colors.dark[7] },
+              dropdown: { backgroundColor: theme.colors.dark[7] },
+            }),
+          },
+        },
+      }}
     >
       <Container>
         <MainWindowController />

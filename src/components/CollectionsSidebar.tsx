@@ -161,7 +161,7 @@ const SidebarContainer = styled.div`
   height: 100vh;
   width: 16rem;
   overflow-y: scroll;
-  background-color: ${DEFAULT_THEME.colors.dark[7]};
+  background-color: ${DEFAULT_THEME.colors.dark[8]};
   border-right: 1px solid ${DEFAULT_THEME.colors.dark[5]};
 `;
 

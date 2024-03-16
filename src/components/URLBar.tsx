@@ -1,4 +1,4 @@
-import { DEFAULT_THEME, Mark, Text, Tooltip } from "@mantine/core";
+import { DEFAULT_THEME, Group, Mark, Text, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import useKeyPress from "../hooks/KeyboardUtils";
@@ -70,7 +70,9 @@ export const URLBar: React.FC<IProps> = ({ setUrl, url }) => {
           {url.split(/{{(.*?)}}/g).map((value) => (
             <>
               {url.search(`{{${value}}}`) < 0 ? (
-                <Text color="white">{value}</Text>
+                <>
+                  <Text color="white">{value}</Text>
+                </>
               ) : (
                 <Tooltip
                   withArrow
@@ -202,9 +204,9 @@ const URLBarHighlight = styled.div`
   align-items: center;
   display: inline-flex;
   align-content: center;
-  background-color: ${DEFAULT_THEME.colors.dark[6]};
+  background-color: ${DEFAULT_THEME.colors.dark[7]};
   border-radius: ${DEFAULT_THEME.radius.sm};
-  border: ${`1.5px solid ${DEFAULT_THEME.colors.dark[4]}`};
+  border: ${`1.5px solid ${DEFAULT_THEME.colors.dark[6]}`};
 `;
 
 const DropDownItem = styled.span`

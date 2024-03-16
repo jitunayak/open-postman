@@ -230,7 +230,7 @@ export const Playground: React.FC<IProps> = ({ saveRequest, request }) => {
         <Group w="100%" style={{ justifyContent: "space-between" }}>
           <TextInput
             defaultValue={request.label}
-            variant="unstyled"
+            variant="filled"
             {...form.getInputProps("label")}
           />
           <Group>
@@ -491,7 +491,7 @@ const Container = styled.div`
   justify-content: space-between;
   height: 100%;
   width: 96%;
-  background-color: ${DEFAULT_THEME.colors.dark[7]};
+  background-color: ${DEFAULT_THEME.colors.dark[8]};
 `;
 const Header = styled.div`
   width: 100%;
