@@ -344,74 +344,74 @@ export const Playground: React.FC<IProps> = ({ saveRequest, request }) => {
               </Grid.Col>
               {form.values.authorization ===
                 AuthenticationTypes.AWS_Signature && (
-                <Grid.Col span={8}>
-                  <div style={{ display: "flex", gap: "1rem" }}>
-                    <Table verticalSpacing={"md"}>
-                      <tr>
-                        <td>
-                          <Text size="sm" ta={"start"}>
-                            Region
-                          </Text>
-                        </td>
-                        <td>
-                          <TextInput
-                            placeholder="e.g. us-east-1"
-                            defaultValue={awsForm.values.region}
-                            {...form.getInputProps(
-                              "authorizationDetails.region"
-                            )}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <Text size="sm" ta={"start"}>
-                            Access Key
-                          </Text>
-                        </td>
-                        <td>
-                          <TextInput
-                            placeholder="Access Key"
-                            {...form.getInputProps(
-                              "authorizationDetails.accessKeyId"
-                            )}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <Text size="sm" ta={"start"}>
-                            Secret Key
-                          </Text>
-                        </td>
-                        <td>
-                          <TextInput
-                            placeholder="Secret Key"
-                            {...form.getInputProps(
-                              "authorizationDetails.secretAccessKey"
-                            )}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <Text size="sm" ta={"start"}>
-                            Session Token
-                          </Text>
-                        </td>
-                        <td>
-                          <Textarea
-                            placeholder="Session Token"
-                            {...form.getInputProps(
-                              "authorizationDetails.sessionToken"
-                            )}
-                          />
-                        </td>
-                      </tr>
-                    </Table>
-                  </div>
-                </Grid.Col>
-              )}
+                  <Grid.Col span={8}>
+                    <div style={{ display: "flex", gap: "1rem" }}>
+                      <Table verticalSpacing={"md"}>
+                        <tr>
+                          <td>
+                            <Text size="sm" ta={"start"}>
+                              Region
+                            </Text>
+                          </td>
+                          <td>
+                            <TextInput
+                              placeholder="e.g. us-east-1"
+                              defaultValue={awsForm.values.region}
+                              {...form.getInputProps(
+                                "authorizationDetails.region"
+                              )}
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <Text size="sm" ta={"start"}>
+                              Access Key
+                            </Text>
+                          </td>
+                          <td>
+                            <TextInput
+                              placeholder="Access Key"
+                              {...form.getInputProps(
+                                "authorizationDetails.accessKeyId"
+                              )}
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <Text size="sm" ta={"start"}>
+                              Secret Key
+                            </Text>
+                          </td>
+                          <td>
+                            <TextInput
+                              placeholder="Secret Key"
+                              {...form.getInputProps(
+                                "authorizationDetails.secretAccessKey"
+                              )}
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <Text size="sm" ta={"start"}>
+                              Session Token
+                            </Text>
+                          </td>
+                          <td>
+                            <Textarea
+                              placeholder="Session Token"
+                              {...form.getInputProps(
+                                "authorizationDetails.sessionToken"
+                              )}
+                            />
+                          </td>
+                        </tr>
+                      </Table>
+                    </div>
+                  </Grid.Col>
+                )}
             </Grid>
           </Tabs.Panel>
 
@@ -470,13 +470,13 @@ export const Playground: React.FC<IProps> = ({ saveRequest, request }) => {
             </>
           )}
         </Group>
-        <ScrollArea h={500}>
+        <ScrollArea h={500} w={1000}>
           <Prism language="json" noCopy>
             {isResponseLoading
               ? "fetching..."
               : !!response?.data
-              ? JSON.stringify(response?.data, undefined, 4)
-              : "Empty Response"}
+                ? JSON.stringify(response?.data, undefined, 4)
+                : "Empty Response"}
           </Prism>
         </ScrollArea>
       </Stack>
